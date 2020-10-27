@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import firebase from "../config/firebase";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import Link from "@material-ui/core/Link";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -17,6 +17,7 @@ import GithubIcon from "../assets/images/Github.svg";
 import TwitterIcon from "../assets/images/Twitter.svg";
 import logo from "../assets/images/logo.svg";
 import Footer from "./Footer";
+import Input from "./form/Input";
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: 16,
@@ -40,34 +41,11 @@ const useStyles = makeStyles((theme) => ({
   form: {
     marginBottom: 32,
   },
-  input: {
-    "& .MuiInputBase-root": {
-      borderRadius: 8,
-      height: 48,
-    },
-    "& .MuiInputBase-input": {
-      "&::placeholder": {
-        fontSize: 16,
-      },
-    },
-    "& .Mui-focused": {
-      "& fieldset": {
-        borderColor: `${theme.palette.primary.main} !important`,
-      },
-    },
-    "& fieldset": {
-      borderColor: theme.palette.neutral.gray,
-    },
-    "& svg": {
-      color: theme.palette.neutral.gray,
-    },
-  },
+
   email: {
-    extend: "input",
     marginBottom: 16,
   },
   password: {
-    extend: "input",
     marginBottom: 24,
   },
   submit: {
@@ -110,42 +88,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
   const styles = useStyles();
-
+  const [values, setValues] = useState({ email: "", password: "" });
+  function handleChange(input) {
+    return function (e) {
+      setValues((values) => ({ ...values, [input]: e.target.value }));
+    };
+  }
   return (
     <Container className={styles.root}>
       <img className={styles.logo} src={logo} />
       <Typography className={styles.heading} component="h1">
-        Join thousands of learners from around the world
-      </Typography>
-      <Typography className={styles.subheading}>
-        Master web development by making real-life projects. There are multiple
-        paths for you to choose
+        Login
       </Typography>
       <div className={styles.form}>
-        <FormControl fullWidth className={styles.email} variant="outlined">
-          <OutlinedInput
-            placeholder="Email"
-            // value={values.amount}
-            // onChange={handleChange('amount')}
-            startAdornment={
-              <InputAdornment position="start">
-                <EmailIcon />
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <FormControl fullWidth className={styles.password} variant="outlined">
-          <OutlinedInput
-            placeholder="Password"
-            // value={values.amount}
-            // onChange={handleChange('amount')}
-            startAdornment={
-              <InputAdornment position="start">
-                <LockIcon />
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+        <Input
+          className={styles.email}
+          type="email"
+          placeholder="Email"
+          icon={<EmailIcon />}
+        />
+        <Input
+          className={styles.password}
+          type="password"
+          placeholder="Password"
+          icon={<LockIcon />}
+        />
+
         <Button
           variant="contained"
           color="primary"
@@ -153,7 +121,7 @@ export default function Register() {
           fullWidth
           disableElevation
         >
-          Register now
+          Login
         </Button>
       </div>
       <div className={styles.sosmed}>
@@ -175,7 +143,7 @@ export default function Register() {
           </IconButton>
         </div>
         <Typography className={styles.sosmedText}>
-          Already a member? <Link to="/login">Login</Link>
+          Don't have an account yet? <Link to="/register">Register</Link>
         </Typography>
       </div>
       <Footer />

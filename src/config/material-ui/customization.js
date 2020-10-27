@@ -61,6 +61,13 @@ const customizedTheme = createMuiTheme({
         ".MuiInputBase-input[type='password']": {
           fontFamily: "Noto Sans",
         },
+        a: {
+          color: "#2d9cdb",
+          textDecoration: "none",
+          "&:hover": {
+            textDecoration: "underline",
+          },
+        },
       },
     },
   },
