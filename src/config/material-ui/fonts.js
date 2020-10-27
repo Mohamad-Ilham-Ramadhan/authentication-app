@@ -17,7 +17,24 @@ import notoSans700Eot from "../../assets/fonts/noto-sans-hk-v5-latin-700.eot";
 import notoSans700Woff2 from "../../assets/fonts/noto-sans-hk-v5-latin-700.woff2";
 import notoSans700Woff from "../../assets/fonts/noto-sans-hk-v5-latin-700.woff";
 import notoSans700Svg from "../../assets/fonts/noto-sans-hk-v5-latin-700.svg";
+// Noto sans (ori)
+import notoSansOriEot from "../../assets/fonts/noto-sans-v11-latin-regular.eot";
+import notoSansOriWoff2 from "../../assets/fonts/noto-sans-v11-latin-regular.woff2";
+import notoSansOriWoff from "../../assets/fonts/noto-sans-v11-latin-regular.woff";
+import notoSansOriSvg from "../../assets/fonts/noto-sans-v11-latin-regular.svg";
 
+const notoSansOri = {
+  fontFamily: "Noto Sans",
+  fontStyle: "normal",
+  fontWeight: 400,
+  src: `url('${notoSansOriEot}'),
+        local('Noto Sans Light'), local('NotoSans-Light'),
+        url('${notoSansOriEot}?#iefix') format('embedded-opentype'),
+        url('${notoSansOriWoff2}') format('woff2'),
+        url('${notoSansOriWoff}') format('woff'),
+        url('${notoSansOriSvg}#NotoSans') format('svg'); 
+  `,
+};
 const notoSans300 = {
   fontFamily: "Noto Sans HK",
   fontStyle: "normal",
@@ -68,4 +85,4 @@ const notoSans700 = {
   `,
 };
 
-export { notoSans300, notoSans400, notoSans500, notoSans700 };
+export { notoSans300, notoSans400, notoSans500, notoSans700, notoSansOri };

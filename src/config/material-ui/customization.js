@@ -1,14 +1,21 @@
 import { createMuiTheme, lighten } from "@material-ui/core/styles";
-import { notoSans300, notoSans400, notoSans500, notoSans700 } from "./fonts";
+import {
+  notoSans300,
+  notoSans400,
+  notoSans500,
+  notoSans700,
+  notoSansOri,
+} from "./fonts";
 
-// // <== Colors ==>
-// // ### Neutral
-// const darkBlue = "hsl(209, 23%, 22%)"; // (Dark Mode Elements)
-// const veryDarkBlueDMBG = "hsl(207, 26%, 17%)"; // (Dark Mode Background)
-// const veryDarkBlueLMT = "hsl(200, 15%, 8%)"; // (Light Mode Text)
-// const darkGray = "hsl(0, 0%, 52%)"; // (Light Mode Input)
-// const veryLightGray = "hsl(0, 0%, 98%)"; // (Light Mode Background)
-// const white = "hsl(0, 0%, 100%)"; // (Dark Mode Text & Light Mode Elements)
+// <== Colors ==>
+// ### Primary
+const primary = "#2F80ED";
+const secondary = "#EB5757";
+// ### Neutral
+const whiteBg = "#FAFAFB";
+const gray = "#828282";
+const lightGray = "#BDBDBD";
+const darkGray = "#333333";
 
 const customizedTheme = createMuiTheme({
   breakpoints: {
@@ -20,13 +27,40 @@ const customizedTheme = createMuiTheme({
       xl: 1200,
     },
   },
+  palette: {
+    primary: {
+      main: primary,
+    },
+    secondary: {
+      main: secondary,
+    },
+    neutral: {
+      white: whiteBg,
+      gray,
+      lightGray,
+      darkGray,
+    },
+  },
   typography: {
     fontFamily: "Noto Sans HK, Roboto, Helvetica, Arial, sans-serif",
   },
   overrides: {
     MuiCssBaseline: {
       "@global": {
-        "@font-face": [notoSans300, notoSans400, notoSans500, notoSans700],
+        "@font-face": [
+          notoSans300,
+          notoSans400,
+          notoSans500,
+          notoSans700,
+          notoSansOri,
+        ],
+        ".MuiButton-root": {
+          textTransform: "none !important",
+          color: "white",
+        },
+        ".MuiInputBase-input[type='password']": {
+          fontFamily: "Noto Sans",
+        },
       },
     },
   },
