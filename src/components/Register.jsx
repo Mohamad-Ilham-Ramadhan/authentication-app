@@ -20,9 +20,25 @@ import Footer from "./Footer";
 import Input from "./form/Input";
 const useStyles = makeStyles((theme) => ({
   root: {
+    maxWidth: 474,
+    marginRight: "auto",
+    marginLeft: "auto",
+    [theme.breakpoints.up("md")]: {
+      paddingTop: 56,
+      paddingBottom: 56,
+    },
+  },
+  container: {
     paddingTop: 16,
     paddingRight: 18,
     paddingLeft: 18,
+    [theme.breakpoints.up("md")]: {
+      border: `1px solid ${theme.palette.neutral.lightGray}`,
+      borderRadius: 24,
+      paddingTop: 48,
+      paddingRight: 56,
+      paddingLeft: 56,
+    },
   },
   logo: {
     marginBottom: 24,
@@ -95,62 +111,64 @@ export default function Register() {
     };
   }
   return (
-    <Container className={styles.root}>
-      <img className={styles.logo} src={logo} />
-      <Typography className={styles.heading} component="h1">
-        Join thousands of learners from around the world
-      </Typography>
-      <Typography className={styles.subheading}>
-        Master web development by making real-life projects. There are multiple
-        paths for you to choose
-      </Typography>
-      <div className={styles.form}>
-        <Input
-          className={styles.email}
-          type="email"
-          placeholder="Email"
-          icon={<EmailIcon />}
-        />
-        <Input
-          className={styles.password}
-          type="password"
-          placeholder="Password"
-          icon={<LockIcon />}
-        />
+    <section className={styles.root}>
+      <Container className={styles.container}>
+        <img className={styles.logo} src={logo} />
+        <Typography className={styles.heading} component="h1">
+          Join thousands of learners from around the world
+        </Typography>
+        <Typography className={styles.subheading}>
+          Master web development by making real-life projects. There are
+          multiple paths for you to choose
+        </Typography>
+        <div className={styles.form}>
+          <Input
+            className={styles.email}
+            type="email"
+            placeholder="Email"
+            icon={<EmailIcon />}
+          />
+          <Input
+            className={styles.password}
+            type="password"
+            placeholder="Password"
+            icon={<LockIcon />}
+          />
 
-        <Button
-          variant="contained"
-          color="primary"
-          className={styles.submit}
-          fullWidth
-          disableElevation
-        >
-          Register now
-        </Button>
-      </div>
-      <div className={styles.sosmed}>
-        <Typography className={styles.sosmedText}>
-          or continue with these social profile
-        </Typography>
-        <div className={styles.sosmedWrapperImg}>
-          <IconButton className={styles.sosmedIcon} component="span">
-            <img src={GoogleIcon} alt="" />
-          </IconButton>
-          <IconButton className={styles.sosmedIcon} component="span">
-            <img src={FacebookIcon} alt="" />
-          </IconButton>
-          <IconButton className={styles.sosmedIcon} component="span">
-            <img src={TwitterIcon} alt="" />
-          </IconButton>
-          <IconButton className={styles.sosmedIcon} component="span">
-            <img src={GithubIcon} alt="" />
-          </IconButton>
+          <Button
+            variant="contained"
+            color="primary"
+            className={styles.submit}
+            fullWidth
+            disableElevation
+          >
+            Register now
+          </Button>
         </div>
-        <Typography className={styles.sosmedText}>
-          Already a member? <Link to="/login">Login</Link>
-        </Typography>
-      </div>
+        <div className={styles.sosmed}>
+          <Typography className={styles.sosmedText}>
+            or continue with these social profile
+          </Typography>
+          <div className={styles.sosmedWrapperImg}>
+            <IconButton className={styles.sosmedIcon} component="span">
+              <img src={GoogleIcon} alt="" />
+            </IconButton>
+            <IconButton className={styles.sosmedIcon} component="span">
+              <img src={FacebookIcon} alt="" />
+            </IconButton>
+            <IconButton className={styles.sosmedIcon} component="span">
+              <img src={TwitterIcon} alt="" />
+            </IconButton>
+            <IconButton className={styles.sosmedIcon} component="span">
+              <img src={GithubIcon} alt="" />
+            </IconButton>
+          </div>
+          <Typography className={styles.sosmedText}>
+            Already a member? <Link to="/login">Login</Link>
+          </Typography>
+        </div>
+      </Container>
       <Footer />
-    </Container>
+    </section>
   );
 }

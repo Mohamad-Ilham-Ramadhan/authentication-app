@@ -7,8 +7,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     color: theme.palette.neutral.lightGray,
-    padding: [16, 0],
-
+    padding: [16, 18],
+    [theme.breakpoints.up("md")]: {
+      padding: [16, 0],
+    },
     "& p": {
       fontSize: 13,
     },
