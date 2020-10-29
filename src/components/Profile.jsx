@@ -1,151 +1,174 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Popover from "@material-ui/core/Popover";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import GroupIcon from "@material-ui/icons/Group";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import logo from "../assets/images/logo.svg";
+import Header from "./Header";
+import Footer from "./Footer";
 import profileImg from "../assets/images/profile.jpg";
+import profileImg2 from "../assets/images/profile2.jpeg";
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   header: {
+    marginBottom: 24,
+  },
+  heading: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 8,
+    fontWeight: 400,
+  },
+  subheading: {
+    textAlign: "center",
+    marginBottom: 40,
+  },
+  table: {
+    tableLayout: "fixed",
+    "& th": {
+      borderBottom: "none",
+    },
+  },
+  tableHeading: {
+    fontSize: 24,
+  },
+  tableSubheading: {
+    fontSize: 13,
+    color: theme.palette.neutral.gray,
+  },
+
+  edit: {
+    borderRadius: 12,
+    border: `1px solid ${theme.palette.neutral.gray}`,
+    color: theme.palette.neutral.gray,
+    padding: [6, 33],
+  },
+
+  gridHeading: {
+    padding: 16,
+  },
+  gridEdit: {
     display: "flex",
     alignItems: "center",
-    padding: [16, 18],
-    position: "relative",
+    justifyContent: "flex-end",
+    padding: 16,
   },
-  menu: {
-    marginLeft: "auto",
-    "& .profile-img": {
-      width: 32,
-      height: 32,
-      overflow: "hidden",
+  gridContainer: {
+    borderBottom: `1px solid #e0e0e0`,
+  },
+  gridKey: {
+    fontSize: 13,
+    textTransform: "uppercase",
+    color: theme.palette.neutral.lightGray,
+    display: "flex",
+    alignItems: "center",
+    padding: 16,
+  },
+  gridValue: {
+    fontSize: 16,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    textAlign: "right",
+    fontWeight: 500,
+    padding: 16,
+    "& img": {
+      width: 72,
+      height: 72,
       borderRadius: 8,
-      "& img": {
-        width: "100%",
+      objectFit: "cover",
+    },
+    "&.bio": {
+      "& div": {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
       },
     },
-  },
-  popover: {
-    "& .MuiPopover-paper": {
-      border: "1px solid #E0E0E0",
-      borderRadius: 12,
-      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
-    },
-  },
-  nav: {
-    width: 192,
-    padding: 12,
-    "& .MuiListItem-root": {
-      borderRadius: 8,
-      "&.logout": {
-        color: theme.palette.secondary.main,
-        "& .MuiListItemIcon-root": {
-          color: theme.palette.secondary.main,
-        },
-      },
-    },
-    "& .Mui-selected": {
-      backgroundColor: "#F2F2F2",
-    },
-    "& .MuiListItemIcon-root": {
-      minWidth: 40,
-      "& svg": {
-        width: 22,
-      },
-    },
-    "& .MuiListItemText-primary": {
-      fontSize: 12,
+    "&.email": {
+      wordBreak: "break-all",
     },
   },
 }));
 
 export default function Profile() {
   const styles = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
   return (
     <section className={styles.root}>
-      <header className={styles.header}>
-        <img src={logo} alt="" />
-        <div className={styles.menu} onClick={handleClick}>
-          <div className="profile-img">
-            <img src={profileImg} alt="" />
-          </div>
-        </div>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          // anchorReference="anchorPosition"
-          // anchorPosition={{ top: 60, right: 1 }}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: -8,
-            horizontal: "center",
-          }}
-          className={styles.popover}
-        >
-          <List className={styles.nav} component="nav">
-            <ListItem button selected>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText>My Profile</ListItemText>
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <GroupIcon />
-              </ListItemIcon>
-              <ListItemText>Group Chat</ListItemText>
-            </ListItem>
-            <Divider />
-            <ListItem button className="logout">
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText>Logout</ListItemText>
-            </ListItem>
-          </List>
-        </Popover>
-      </header>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert</TableCell>
-            <TableCell>Dessert</TableCell>
-            <TableCell>Dessert</TableCell>
-          </TableRow>
-        </TableHead>
-      </Table>
+      <Header className={styles.header} />
+      <Container>
+        <Typography className={styles.heading} variant="h1">
+          Personal info
+        </Typography>
+        <Typography className={styles.subheading} variant="body2">
+          Basic info, like your name and photo
+        </Typography>
+      </Container>
+      <Grid container>
+        <Grid item xs={7} className={styles.gridHeading}>
+          <Typography className={styles.tableHeading} component="h2">
+            Profile
+          </Typography>
+          <Typography className={styles.tableSubheading}>
+            Some info may be visible to other people.
+          </Typography>
+        </Grid>
+        <Grid item xs={5} className={styles.gridEdit}>
+          <Button variant="outlined" className={styles.edit}>
+            Edit
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid container className={styles.gridContainer}>
+        <Grid item xs={4} className={styles.gridKey}>
+          Photo
+        </Grid>
+        <Grid item xs={8} className={styles.gridValue}>
+          <img src={profileImg2} alt="" />
+        </Grid>
+      </Grid>
+      <Grid container className={styles.gridContainer}>
+        <Grid item xs={4} className={styles.gridKey}>
+          Name
+        </Grid>
+        <Grid item xs={8} className={styles.gridValue}>
+          Mohamad Ilham Ramadhan
+        </Grid>
+      </Grid>
+      <Grid container className={styles.gridContainer}>
+        <Grid item xs={4} className={styles.gridKey}>
+          Bio
+        </Grid>
+        <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
+          <div>Hello, I'm frontend web developer and also a handsome guy.</div>
+        </Grid>
+      </Grid>
+      <Grid container className={styles.gridContainer}>
+        <Grid item xs={4} className={styles.gridKey}>
+          Email
+        </Grid>
+        <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
+          mohamadilhamramadhan@gmail.com
+        </Grid>
+      </Grid>
+      <Grid container className={styles.gridContainer}>
+        <Grid item xs={4} className={styles.gridKey}>
+          Password
+        </Grid>
+        <Grid item xs={8} className={styles.gridValue}>
+          *************
+        </Grid>
+      </Grid>
+      <Footer />
     </section>
   );
 }
