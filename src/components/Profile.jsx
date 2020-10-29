@@ -20,22 +20,33 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   header: {
     marginBottom: 24,
+    [theme.breakpoints.up("md")]: {
+      marginBottom: 42,
+    },
   },
   heading: {
     fontSize: 24,
     textAlign: "center",
     marginBottom: 8,
     fontWeight: 400,
+    [theme.breakpoints.up("md")]: {
+      fontSize: 36,
+    },
   },
   subheading: {
     textAlign: "center",
     marginBottom: 40,
-  },
-  table: {
-    tableLayout: "fixed",
-    "& th": {
-      borderBottom: "none",
+    [theme.breakpoints.up("md")]: {
+      fontSize: 18,
     },
+  },
+  wrapperTable: {},
+  table: {
+    [theme.breakpoints.up("md")]: {
+      border: "1px solid #e0e0e0",
+      borderRadius: 12,
+    },
+    marginBottom: 32,
   },
   tableHeading: {
     fontSize: 24,
@@ -44,25 +55,39 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 13,
     color: theme.palette.neutral.gray,
   },
-
   edit: {
     borderRadius: 12,
     border: `1px solid ${theme.palette.neutral.gray}`,
     color: theme.palette.neutral.gray,
     padding: [6, 33],
   },
-
-  gridHeading: {
+  gridPadding: {
     padding: 16,
+    [theme.breakpoints.up("md")]: {
+      padding: 32,
+    },
+  },
+  gridContainerHeading: {
+    [theme.breakpoints.up("md")]: {
+      borderBottom: `1px solid #e0e0e0`,
+    },
+  },
+  gridHeading: {
+    extend: "gridPadding",
   },
   gridEdit: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: 16,
+    extend: "gridPadding",
   },
   gridContainer: {
     borderBottom: `1px solid #e0e0e0`,
+    [theme.breakpoints.up("md")]: {
+      "&:last-child": {
+        borderBottom: "none",
+      },
+    },
   },
   gridKey: {
     fontSize: 13,
@@ -70,16 +95,20 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.neutral.lightGray,
     display: "flex",
     alignItems: "center",
-    padding: 16,
+    extend: "gridPadding",
   },
   gridValue: {
     fontSize: 16,
     display: "flex",
-    justifyContent: "flex-end",
     alignItems: "center",
+    justifyContent: "flex-end",
     textAlign: "right",
     fontWeight: 500,
-    padding: 16,
+    extend: "gridPadding",
+    [theme.breakpoints.up("md")]: {
+      justifyContent: "flex-start",
+      textAlign: "left",
+    },
     "& img": {
       width: 72,
       height: 72,
@@ -113,62 +142,68 @@ export default function Profile() {
           Basic info, like your name and photo
         </Typography>
       </Container>
-      <Grid container>
-        <Grid item xs={7} className={styles.gridHeading}>
-          <Typography className={styles.tableHeading} component="h2">
-            Profile
-          </Typography>
-          <Typography className={styles.tableSubheading}>
-            Some info may be visible to other people.
-          </Typography>
-        </Grid>
-        <Grid item xs={5} className={styles.gridEdit}>
-          <Button variant="outlined" className={styles.edit}>
-            Edit
-          </Button>
-        </Grid>
-      </Grid>
-      <Grid container className={styles.gridContainer}>
-        <Grid item xs={4} className={styles.gridKey}>
-          Photo
-        </Grid>
-        <Grid item xs={8} className={styles.gridValue}>
-          <img src={profileImg2} alt="" />
-        </Grid>
-      </Grid>
-      <Grid container className={styles.gridContainer}>
-        <Grid item xs={4} className={styles.gridKey}>
-          Name
-        </Grid>
-        <Grid item xs={8} className={styles.gridValue}>
-          Mohamad Ilham Ramadhan
-        </Grid>
-      </Grid>
-      <Grid container className={styles.gridContainer}>
-        <Grid item xs={4} className={styles.gridKey}>
-          Bio
-        </Grid>
-        <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
-          <div>Hello, I'm frontend web developer and also a handsome guy.</div>
-        </Grid>
-      </Grid>
-      <Grid container className={styles.gridContainer}>
-        <Grid item xs={4} className={styles.gridKey}>
-          Email
-        </Grid>
-        <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
-          mohamadilhamramadhan@gmail.com
-        </Grid>
-      </Grid>
-      <Grid container className={styles.gridContainer}>
-        <Grid item xs={4} className={styles.gridKey}>
-          Password
-        </Grid>
-        <Grid item xs={8} className={styles.gridValue}>
-          *************
-        </Grid>
-      </Grid>
-      <Footer />
+      <Container fixed className={styles.wrapperTable}>
+        <div className={styles.table}>
+          <Grid container className={styles.gridContainerHeading}>
+            <Grid item xs={7} className={styles.gridHeading}>
+              <Typography className={styles.tableHeading} component="h2">
+                Profile
+              </Typography>
+              <Typography className={styles.tableSubheading}>
+                Some info may be visible to other people.
+              </Typography>
+            </Grid>
+            <Grid item xs={5} className={styles.gridEdit}>
+              <Button variant="outlined" className={styles.edit}>
+                Edit
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={4} className={styles.gridKey}>
+              Photo
+            </Grid>
+            <Grid item xs={8} className={styles.gridValue}>
+              <img src={profileImg2} alt="" />
+            </Grid>
+          </Grid>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={4} className={styles.gridKey}>
+              Name
+            </Grid>
+            <Grid item xs={8} className={styles.gridValue}>
+              Mohamad Ilham Ramadhan
+            </Grid>
+          </Grid>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={4} className={styles.gridKey}>
+              Bio
+            </Grid>
+            <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
+              <div>
+                Hello, I'm frontend web developer and also a handsome guy.
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={4} className={styles.gridKey}>
+              Email
+            </Grid>
+            <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
+              mohamadilhamramadhan@gmail.com
+            </Grid>
+          </Grid>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={4} className={styles.gridKey}>
+              Password
+            </Grid>
+            <Grid item xs={8} className={styles.gridValue}>
+              *************
+            </Grid>
+          </Grid>
+        </div>
+        <Footer />
+      </Container>
     </section>
   );
 }
