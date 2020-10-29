@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,6 +13,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import logo from "../assets/images/logo.svg";
 import profileImg from "../assets/images/profile.jpg";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +25,16 @@ const useStyles = makeStyles((theme) => ({
   menu: {
     marginLeft: "auto",
     cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
     "& .profile-img": {
       width: 32,
       height: 32,
       overflow: "hidden",
       borderRadius: 8,
+      [theme.breakpoints.up("md")]: {
+        marginRight: 8,
+      },
       "& img": {
         width: "100%",
       },
@@ -64,6 +71,26 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiListItemText-primary": {
       fontSize: 12,
     },
+    "& .MuiDivider-root": {
+      marginBottom: 8,
+    },
+  },
+  name: {
+    display: "none",
+    fontSize: 12,
+    fontWeight: 700,
+    [theme.breakpoints.up("md")]: {
+      display: "inline-block",
+    },
+  },
+  dropdownIcon: {
+    display: "none",
+    "&.open": {
+      transform: "rotate(180deg)",
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "inline-block",
+    },
   },
 }));
 
@@ -88,6 +115,10 @@ export default function Header({ className }) {
         <div className="profile-img">
           <img src={profileImg} alt="" />
         </div>
+        <span className={styles.name}>Mohamad Ilham Ramadhan</span>
+        <ArrowDropDownIcon
+          className={clsx(styles.dropdownIcon, open ? "open" : "close")}
+        />
       </div>
       <Popover
         id={id}
@@ -96,11 +127,11 @@ export default function Header({ className }) {
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: -8,
-          horizontal: "center",
+          horizontal: "right",
         }}
         className={styles.popover}
       >
