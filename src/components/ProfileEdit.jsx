@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
   },
   photo: {
     extend: "input",
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
     "& button": {
       width: 72,
       height: 72,
@@ -74,11 +77,21 @@ const useStyles = makeStyles((theme) => ({
     "& svg": {
       color: "white",
     },
-    "& span": {
+    "& .wrapper": {
+      flex: 1,
+      overflow: "hidden",
+    },
+    "& .label": {
       textTransform: "uppercase",
       fontSize: 13,
       fontWeight: 500,
       color: theme.palette.neutral.gray,
+    },
+    "& .filename": {
+      width: "100%",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
     },
   },
   save: {
@@ -103,10 +116,20 @@ const useStyles = makeStyles((theme) => ({
     },
     "& input[type='file']": {
       position: "absolute",
+      left: 0,
+      top: 0,
       height: "100%",
       width: "100%",
       opacity: 0,
     },
+  },
+  dialogUrl: {
+    "& .MuiDialog-paper": {
+      padding: [24, 16],
+    },
+  },
+  done: {
+    borderRadius: 8,
   },
 }));
 
@@ -116,10 +139,26 @@ export default function ProfileEdit() {
   const [openUrl, setOpenUrl] = useState(false);
   const [url, setUrl] = useState(null);
   const fileRef = useRef(null);
-  function handleClick() {
+  const [filename, setFilename] = useState(null);
+  // input values:
+  const [values, setValues] = useState({
+    url: "",
+    name: "",
+    bio: "",
+    phone: "",
+    email: "",
+    password: "",
+  });
+  function handleChange(e) {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [e.target.id]: e.target.value,
+    }));
+  }
+  function handleClickPhoto() {
     setOpen(true);
   }
-  function handleClose() {
+  function handleCloseDrawer() {
     setOpen(false);
   }
   function handleFileChange(e) {
@@ -135,10 +174,37 @@ export default function ProfileEdit() {
   function handleCloseUrl() {
     setOpenUrl(false);
   }
+  function handleClickDoneUrl() {
+    setOpenUrl(false);
+    setFilename(values.url);
+  }
   return (
     <section>
-      <Dialog open={openUrl} onClose={handleCloseUrl}>
-        Give me your URL or I will pantek you!
+      <Dialog
+        className={styles.dialogUrl}
+        open={openUrl}
+        onClose={handleCloseUrl}
+        fullWidth
+      >
+        <Input
+          label="Photo URL"
+          type="text"
+          id="url"
+          value={values.url}
+          onChange={handleChange}
+          placeholder="Enter your photo URL..."
+          className={styles.input}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          className={styles.done}
+          disableElevation
+          fullWidth
+          onClick={handleClickDoneUrl}
+        >
+          Done
+        </Button>
       </Dialog>
       <Header className={styles.header} />
       <Container>
@@ -154,15 +220,18 @@ export default function ProfileEdit() {
             Changes will be reflected to every services
           </Typography>
           <div className={styles.photo}>
-            <ButtonBase onClick={handleClick}>
+            <ButtonBase onClick={handleClickPhoto}>
               <CameraAltIcon />
             </ButtonBase>
-            <span>change photo</span>
+            <div className="wrapper">
+              <div className="label">change photo</div>
+              <div className="filename">{filename}</div>
+            </div>
             <SwipeableDrawer
               className={styles.drawer}
               anchor="bottom"
               open={open}
-              onClose={handleClose}
+              onClose={handleCloseDrawer}
             >
               <List aria-label="upload photo add url">
                 <ListItem button className="file">
@@ -189,13 +258,17 @@ export default function ProfileEdit() {
             label="Name"
             type="text"
             id="name"
+            value={values.name}
+            onChange={handleChange}
             placeholder="Enter your name..."
             className={styles.input}
           />
           <Input
             label="Bio"
             id="bio"
-            placeholder="Enter your bio..."
+            value={values.bio}
+            onChange={handleChange}
+            placeholder="Enter your bio goblok..."
             className={styles.input}
             multiline
             rows={3}
@@ -203,6 +276,8 @@ export default function ProfileEdit() {
           <Input
             label="Phone"
             id="phone"
+            value={values.phone}
+            onChange={handleChange}
             placeholder="Enter your phone..."
             className={styles.input}
             type="number"
@@ -210,6 +285,8 @@ export default function ProfileEdit() {
           <Input
             label="Email"
             id="email"
+            value={values.email}
+            onChange={handleChange}
             placeholder="Enter your email..."
             className={styles.input}
             type="email"
@@ -217,6 +294,8 @@ export default function ProfileEdit() {
           <Input
             label="Password"
             id="password"
+            value={values.password}
+            onChange={handleChange}
             placeholder="Enter your new password..."
             className={styles.input}
             type="password"

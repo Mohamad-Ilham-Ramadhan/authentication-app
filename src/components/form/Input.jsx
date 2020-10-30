@@ -32,13 +32,11 @@ export default function Input({
   label,
   component,
   className,
+  value,
+  onChange,
   ...props
 }) {
   const styles = useStyles();
-  const [value, setValue] = useState("");
-  function handleChange(e) {
-    setValue(e.target.value);
-  }
   return (
     <FormControl
       fullWidth
@@ -51,7 +49,7 @@ export default function Input({
         type={type}
         placeholder={placeholder}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
         inputComponent={component}
         startAdornment={
           icon ? <InputAdornment position="start">{icon}</InputAdornment> : null
