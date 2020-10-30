@@ -32,8 +32,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     marginBottom: 24,
   },
-  wrapper: {
+  wrapperForm: {
     marginBottom: 32,
+    [theme.breakpoints.up("md")]: {
+      border: "1px solid #e0e0e0",
+      borderRadius: 12,
+      padding: [32, 48],
+    },
   },
   heading: {
     fontSize: 24,
@@ -46,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     marginBottom: 24,
+    maxWidth: 420,
+    [theme.breakpoints.up("md")]: {},
     "& .MuiInputBase-root": {
       borderRadius: 12,
     },
@@ -60,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
       "&::placeholder": {
         fontSize: 13,
       },
+    },
+    "&.url": {
+      maxWidth: "unset",
     },
   },
   photo: {
@@ -193,7 +203,7 @@ export default function ProfileEdit() {
           value={values.url}
           onChange={handleChange}
           placeholder="Enter your photo URL..."
-          className={styles.input}
+          className={clsx(styles.input, "url")}
         />
         <Button
           variant="contained"
@@ -212,7 +222,7 @@ export default function ProfileEdit() {
           <ArrowBackIcon fontSize="small" />
           Back
         </Link>
-        <div className={styles.wrapper}>
+        <div className={styles.wrapperForm}>
           <Typography component="h1" className={styles.heading}>
             Change Info
           </Typography>
@@ -254,60 +264,72 @@ export default function ProfileEdit() {
               </List>
             </SwipeableDrawer>
           </div>
-          <Input
-            label="Name"
-            type="text"
-            id="name"
-            value={values.name}
-            onChange={handleChange}
-            placeholder="Enter your name..."
-            className={styles.input}
-          />
-          <Input
-            label="Bio"
-            id="bio"
-            value={values.bio}
-            onChange={handleChange}
-            placeholder="Enter your bio goblok..."
-            className={styles.input}
-            multiline
-            rows={3}
-          />
-          <Input
-            label="Phone"
-            id="phone"
-            value={values.phone}
-            onChange={handleChange}
-            placeholder="Enter your phone..."
-            className={styles.input}
-            type="number"
-          />
-          <Input
-            label="Email"
-            id="email"
-            value={values.email}
-            onChange={handleChange}
-            placeholder="Enter your email..."
-            className={styles.input}
-            type="email"
-          />
-          <Input
-            label="Password"
-            id="password"
-            value={values.password}
-            onChange={handleChange}
-            placeholder="Enter your new password..."
-            className={styles.input}
-            type="password"
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={styles.save}
-            disableElevation
-          >
-            Save
-          </Button>
+          <div>
+            <Input
+              label="Name"
+              type="text"
+              id="name"
+              value={values.name}
+              onChange={handleChange}
+              placeholder="Enter your name..."
+              className={styles.input}
+            />
+          </div>
+          <div>
+            <Input
+              label="Bio"
+              id="bio"
+              value={values.bio}
+              onChange={handleChange}
+              placeholder="Enter your bio..."
+              className={styles.input}
+              multiline
+              rows={3}
+            />
+          </div>
+          <div>
+            <Input
+              label="Phone"
+              id="phone"
+              value={values.phone}
+              onChange={handleChange}
+              placeholder="Enter your phone..."
+              className={styles.input}
+              type="number"
+            />
+          </div>
+          <div>
+            <Input
+              label="Email"
+              id="email"
+              value={values.email}
+              onChange={handleChange}
+              placeholder="Enter your email..."
+              className={styles.input}
+              type="email"
+            />
+          </div>
+          <div>
+            <Input
+              label="Password"
+              id="password"
+              value={values.password}
+              onChange={handleChange}
+              placeholder="Enter your new password..."
+              className={styles.input}
+              type="password"
+            />
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              className={styles.save}
+              disableElevation
+            >
+              Save
+            </Button>
+          </div>
         </div>
         <Footer className={styles.footer} />
       </Container>
