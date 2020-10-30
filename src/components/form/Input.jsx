@@ -8,12 +8,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiInputBase-root": {
       borderRadius: 8,
-      height: 48,
-    },
-    "& .MuiInputBase-input": {
-      "&::placeholder": {
-        fontSize: 16,
-      },
+      minHeight: 48,
     },
     "& .Mui-focused": {
       "& fieldset": {
@@ -29,7 +24,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Input({ type, placeholder, icon, className }) {
+export default function Input({
+  type,
+  placeholder,
+  icon,
+  id,
+  label,
+  component,
+  className,
+  ...props
+}) {
   const styles = useStyles();
   const [value, setValue] = useState("");
   function handleChange(e) {
@@ -41,14 +45,18 @@ export default function Input({ type, placeholder, icon, className }) {
       className={clsx(styles.root, className)}
       variant="outlined"
     >
+      {label && <label htmlFor={id}>{label}</label>}
       <OutlinedInput
+        id={id}
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        inputComponent={component}
         startAdornment={
-          <InputAdornment position="start">{icon}</InputAdornment>
+          icon ? <InputAdornment position="start">{icon}</InputAdornment> : null
         }
+        {...props}
       />
     </FormControl>
   );

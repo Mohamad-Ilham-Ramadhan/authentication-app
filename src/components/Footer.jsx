@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
@@ -17,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Footer() {
+export default function Footer({ className }) {
   const styles = useStyles();
 
   return (
-    <footer className={styles.root}>
+    <footer className={clsx(styles.root, className)}>
       <Typography>Mohamad Ilham Ramadhan</Typography>
       <Typography>devchallenges.io</Typography>
     </footer>

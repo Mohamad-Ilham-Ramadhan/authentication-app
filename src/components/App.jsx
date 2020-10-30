@@ -3,6 +3,7 @@ import { HashRouter as Router, Link, Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Profile from "./Profile";
+import ProfileEdit from "./ProfileEdit";
 
 export default function App() {
   return (
@@ -13,6 +14,9 @@ export default function App() {
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/profile/:id/edit">
+          <ProfileEdit />
         </Route>
         <Route path="/profile/:id">
           <Profile />
