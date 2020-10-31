@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiInputBase-root": {
       borderRadius: 8,
-      minHeight: 48,
     },
     "& .Mui-focused": {
       "& fieldset": {

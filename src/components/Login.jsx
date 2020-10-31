@@ -57,11 +57,17 @@ const useStyles = makeStyles((theme) => ({
   form: {
     marginBottom: 32,
   },
-
+  input: {
+    "& .MuiInputBase-input": {
+      padding: [14.5, 14],
+    },
+  },
   email: {
+    extend: "input",
     marginBottom: 16,
   },
   password: {
+    extend: "input",
     marginBottom: 24,
   },
   submit: {

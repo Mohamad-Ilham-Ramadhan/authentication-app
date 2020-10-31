@@ -40,7 +40,17 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 18,
     },
   },
-  wrapperTable: {},
+  wrapperTable: {
+    paddingRight: 0,
+    paddingLeft: 0,
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "unset",
+    },
+    [theme.breakpoints.up("md")]: {
+      paddingRight: 24,
+      paddingLeft: 24,
+    },
+  },
   table: {
     [theme.breakpoints.up("md")]: {
       border: "1px solid #e0e0e0",
