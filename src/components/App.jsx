@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { HashRouter as Router, Link, Switch, Route } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import Profile from "./Profile";
-import ProfileEdit from "./ProfileEdit";
+import Login from "./login";
+import Register from "./register";
+import Profile from "./profile";
+import ProfileEdit from "./profile-edit";
 
 export default function App() {
   return (

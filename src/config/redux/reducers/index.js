@@ -1,12 +1,9 @@
 import { combineReducers } from "redux";
+import user from "./user";
+import loadings from "./loadings";
+import messages from "./messages";
+import auth from "./auth";
 
-function initial(state = ["first", "second"], action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
-
-const reducer = combineReducers({ initial });
+const reducer = combineReducers({ user, loadings, messages, auth });
 
 export default reducer;

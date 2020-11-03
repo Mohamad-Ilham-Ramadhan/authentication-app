@@ -1,139 +1,76 @@
-import React, { useState } from "react";
-import firebase from "../config/firebase";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from "@material-ui/core/IconButton";
 import FormControl from "@material-ui/core/FormControl";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
-import GoogleIcon from "../assets/images/Google.svg";
-import FacebookIcon from "../assets/images/Facebook.svg";
-import GithubIcon from "../assets/images/Github.svg";
-import TwitterIcon from "../assets/images/Twitter.svg";
-import logo from "../assets/images/logo.svg";
-import Footer from "./Footer";
-import Input from "./form/Input";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 474,
-    marginRight: "auto",
-    marginLeft: "auto",
-    [theme.breakpoints.up("md")]: {
-      paddingTop: 56,
-      paddingBottom: 56,
-    },
-  },
-  container: {
-    paddingTop: 16,
-    paddingRight: 18,
-    paddingLeft: 18,
-    [theme.breakpoints.up("md")]: {
-      border: `1px solid ${theme.palette.neutral.lightGray}`,
-      borderRadius: 24,
-      paddingTop: 48,
-      paddingRight: 56,
-      paddingLeft: 56,
-    },
-  },
-  logo: {
-    marginBottom: 24,
-  },
-  heading: {
-    fontSize: 18,
-    fontWeight: 600,
-    color: theme.palette.neutral.darkGray,
-    marginBottom: 16,
-  },
-  subheading: {
-    fontSize: 16,
-    color: theme.palette.neutral.darkGray,
-    marginBottom: 24,
-  },
-  form: {
-    marginBottom: 32,
-  },
-  input: {
-    "& .MuiInputBase-input": {
-      padding: [14.5, 14],
-    },
-  },
-  email: {
-    extend: "input",
-    marginBottom: 16,
-  },
-  password: {
-    extend: "input",
-    marginBottom: 24,
-  },
-  submit: {
-    borderRadius: 8,
-    fontSize: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
-  },
-  sosmed: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-    color: theme.palette.neutral.gray,
-    marginBottom: 80,
-  },
-  sosmedText: {
-    fontSize: 14,
-    "&:first-child": {
-      marginBottom: 24,
-    },
-  },
-  sosmedWrapperImg: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: 24,
-  },
-  sosmedIcon: {
-    padding: 0,
-    marginRight: 20,
-    "&:last-child": {
-      marginRight: 0,
-    },
-    "& img": {
-      width: 42,
-    },
-  },
-}));
-
-export default function Register() {
+import GoogleIcon from "../../assets/images/Google.svg";
+import FacebookIcon from "../../assets/images/Facebook.svg";
+import GithubIcon from "../../assets/images/Github.svg";
+import TwitterIcon from "../../assets/images/Twitter.svg";
+import logo from "../../assets/images/logo.svg";
+import Footer from "../Footer";
+import Input from "../form/Input";
+// style
+import useStyles from "./style";
+// action
+import login from "../../config/redux/actions/login";
+import register from "../../config/redux/actions/register";
+function Register({ isLogin, uid, errorMessage, loading, register }) {
   const styles = useStyles();
   const [values, setValues] = useState({ email: "", password: "" });
-  function handleChange(input) {
-    return function (e) {
-      setValues((values) => ({ ...values, [input]: e.target.value }));
-    };
+  const [errMsg, setErrMsg] = useState("");
+  const history = useHistory();
+  function handleChange(e) {
+    setValues((values) => ({ ...values, [e.target.id]: e.target.value }));
+  }
+  useEffect(() => {
+    if (isLogin) {
+      history.push(`/profile/${uid}`);
+    }
+  }, [isLogin]);
+  function handleRegister() {
+    setErrMsg("");
+    register(values);
   }
   return (
     <section className={styles.root}>
       <Container className={styles.container}>
         <img className={styles.logo} src={logo} />
         <Typography className={styles.heading} component="h1">
-          Login
+          Join thousands of learners from around the world
+        </Typography>
+        <Typography className={styles.subheading}>
+          Master web development by making real-life projects. There are
+          multiple paths for you to choose
         </Typography>
         <div className={styles.form}>
           <Input
             className={styles.email}
             type="email"
+            id="email"
             placeholder="Email"
+            value={values.email}
+            onChange={handleChange}
             icon={<EmailIcon />}
           />
+          <p className={styles.errMsg}>{errorMessage}</p>
           <Input
             className={styles.password}
             type="password"
+            id="password"
             placeholder="Password"
+            value={values.password}
+            onChange={handleChange}
             icon={<LockIcon />}
           />
 
@@ -143,8 +80,16 @@ export default function Register() {
             className={styles.submit}
             fullWidth
             disableElevation
+            onClick={handleRegister}
           >
-            Login
+            {loading ? (
+              <CircularProgress
+                size={27.3}
+                className={styles.circularProgress}
+              />
+            ) : (
+              "Register now"
+            )}
           </Button>
         </div>
         <div className={styles.sosmed}>
@@ -166,7 +111,7 @@ export default function Register() {
             </IconButton>
           </div>
           <Typography className={styles.sosmedText}>
-            Don't have an account yet? <Link to="/register">Register</Link>
+            Already a member? <Link to="/login">Login</Link>
           </Typography>
         </div>
       </Container>
@@ -174,3 +119,18 @@ export default function Register() {
     </section>
   );
 }
+function mapState(state) {
+  return {
+    errorMessage: state.messages.register,
+    loading: state.loadings.register,
+    isLogin: state.auth.login,
+    uid: state.user.uid,
+  };
+}
+function mapDispatch(dispatch) {
+  return {
+    register: (inputs) => dispatch(register(inputs)),
+  };
+}
+
+export default connect(mapState, mapDispatch)(Register);

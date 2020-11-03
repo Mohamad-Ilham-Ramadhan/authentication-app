@@ -1,7 +1,18 @@
-export default function user(state = {}, action) {
+const initialState = {
+  isNewUser: null,
+  providerId: null,
+  credential: null,
+  uid: null,
+  email: null,
+  displayName: null,
+  photoUrl: null,
+  phoneNumber: null,
+  password: null,
+};
+export default function user(state = initialState, action) {
   switch (action.type) {
-    case "FETCH_USER":
-      return action.user;
+    case "SET_USER":
+      return action.payload;
     default:
       return state;
   }
