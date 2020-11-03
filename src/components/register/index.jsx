@@ -25,10 +25,18 @@ import useStyles from "./style";
 // action
 import login from "../../config/redux/actions/login";
 import register from "../../config/redux/actions/register";
-function Register({ isLogin, uid, errorMessage, loading, register }) {
+import registerWithProvider from "../../config/redux/actions/registerWithProvider";
+
+function Register({
+  isLogin,
+  uid,
+  errorMessage,
+  loading,
+  register,
+  registerWithProvider,
+}) {
   const styles = useStyles();
   const [values, setValues] = useState({ email: "", password: "" });
-  const [errMsg, setErrMsg] = useState("");
   const history = useHistory();
   function handleChange(e) {
     setValues((values) => ({ ...values, [e.target.id]: e.target.value }));
@@ -41,6 +49,12 @@ function Register({ isLogin, uid, errorMessage, loading, register }) {
   function handleRegister() {
     setErrMsg("");
     register(values);
+  }
+  function handleRegisterWithProvider(provider) {
+    return function () {
+      console.log("Provider =>", provider);
+      registerWithProvider(provider);
+    };
   }
   return (
     <section className={styles.root}>
@@ -97,16 +111,32 @@ function Register({ isLogin, uid, errorMessage, loading, register }) {
             or continue with these social profile
           </Typography>
           <div className={styles.sosmedWrapperImg}>
-            <IconButton className={styles.sosmedIcon} component="span">
+            <IconButton
+              className={styles.sosmedIcon}
+              component="span"
+              onClick={handleRegisterWithProvider("google")}
+            >
               <img src={GoogleIcon} alt="" />
             </IconButton>
-            <IconButton className={styles.sosmedIcon} component="span">
+            <IconButton
+              className={styles.sosmedIcon}
+              component="span"
+              onClick={handleRegisterWithProvider("facebook")}
+            >
               <img src={FacebookIcon} alt="" />
             </IconButton>
-            <IconButton className={styles.sosmedIcon} component="span">
+            <IconButton
+              className={styles.sosmedIcon}
+              component="span"
+              onClick={handleRegisterWithProvider("twitter")}
+            >
               <img src={TwitterIcon} alt="" />
             </IconButton>
-            <IconButton className={styles.sosmedIcon} component="span">
+            <IconButton
+              className={styles.sosmedIcon}
+              component="span"
+              onClick={handleRegisterWithProvider("github")}
+            >
               <img src={GithubIcon} alt="" />
             </IconButton>
           </div>
@@ -130,6 +160,8 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     register: (inputs) => dispatch(register(inputs)),
+    registerWithProvider: (provider) =>
+      dispatch(registerWithProvider(provider)),
   };
 }
 

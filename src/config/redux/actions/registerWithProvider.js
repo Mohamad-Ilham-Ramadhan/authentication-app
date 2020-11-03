@@ -4,14 +4,35 @@ import setRegisterLoading from "./setRegisterLoading";
 import setRegisterErrMsg from "./setRegisterErrMsg";
 import setUser from "./setUser";
 import setLoginAuth from "./setLoginAuth";
-export default function register(
-  { email, password } = { email: "", password: "" }
-) {
+
+var google = new firebase.auth.GoogleAuthProvider();
+var facebook = new firebase.auth.FacebookAuthProvider();
+var twitter = new firebase.auth.TwitterAuthProvider();
+var github = new firebase.auth.GithubAuthProvider();
+
+export default function registerWithProvider(provider) {
   return function (dispatch) {
     dispatch(setRegisterLoading(true));
-    return firebase
+    let usedProvider;
+    switch (provider) {
+      case "google":
+        usedProvider = google;
+        break;
+      case "facebook":
+        usedProvider = facebook;
+        break;
+      case "twitter":
+        usedProvider = twitter;
+        break;
+      case "github":
+        usedProvider = github;
+        break;
+      default:
+        break;
+    }
+    firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password)
+      .signInWithPopup(usedProvider)
       .then(function (response) {
         dispatch(setRegisterLoading(false));
         const user = {
@@ -24,14 +45,12 @@ export default function register(
           phoneNumber: response.user.phoneNumber,
           password: password,
         };
-        console.log(user);
         dispatch(setUser(user));
         dispatch(setLoginAuth(true));
       })
       .catch(function (error) {
         dispatch(setRegisterLoading(false));
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        var errorMessage = error.message;
         dispatch(setRegisterErrMsg(errorMessage));
       });
   };

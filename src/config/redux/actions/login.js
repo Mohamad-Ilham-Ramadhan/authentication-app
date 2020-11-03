@@ -17,7 +17,6 @@ export default function login(
         const user = {
           isNewUser: response.additionalUserInfo.isNewUser,
           providerId: response.additionalUserInfo.providerId,
-          credential: response.credential,
           uid: response.user.uid,
           email: response.user.email,
           displayName: response.user.displayName,
