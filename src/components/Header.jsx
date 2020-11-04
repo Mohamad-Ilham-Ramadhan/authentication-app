@@ -15,6 +15,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import logo from "../assets/images/logo.svg";
 import profileImg from "../assets/images/profile.jpg";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import PersonIcon from "@material-ui/icons/Person";
 // actions
 import logout from "../config/redux/actions/logout";
 
@@ -35,11 +36,17 @@ const useStyles = makeStyles((theme) => ({
       height: 32,
       overflow: "hidden",
       borderRadius: 8,
+      backgroundColor: theme.palette.neutral.lightGray,
       [theme.breakpoints.up("md")]: {
         marginRight: 8,
       },
       "& img": {
         width: "100%",
+      },
+      "& svg": {
+        color: "white",
+        width: "100%",
+        height: "100%",
       },
     },
   },
@@ -97,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ className, logout }) {
+function Header({ className, logout, user }) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -118,9 +125,11 @@ function Header({ className, logout }) {
       <img src={logo} alt="" />
       <div className={styles.menu} onClick={handleClick} role="button">
         <div className="profile-img">
-          <img src={profileImg} alt="" />
+          {user.photoUrl ? <img src={user.photoUrl} alt="" /> : <PersonIcon />}
         </div>
-        <span className={styles.name}>Mohamad Ilham Ramadhan</span>
+        <span className={styles.name}>
+          {user.displayName ? user.displayName : user.email}
+        </span>
         <ArrowDropDownIcon
           className={clsx(styles.dropdownIcon, open ? "open" : "close")}
         />
@@ -168,6 +177,7 @@ function Header({ className, logout }) {
 function mapState(state) {
   return {
     isLogin: state.auth.login,
+    user: state.user,
   };
 }
 function mapDispatch(dispatch) {

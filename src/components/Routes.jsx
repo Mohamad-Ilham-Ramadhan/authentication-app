@@ -12,7 +12,6 @@ import firebase from "../config/firebase/index";
 // actions
 import setLoginAuth from "../config/redux/actions/setLoginAuth";
 import setUser from "../config/redux/actions/setUser";
-
 function Routes({ isLogin, setLoginAuth, setUser, uid }) {
   const history = useHistory();
   useEffect(() => {

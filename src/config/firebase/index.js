@@ -13,6 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 export default firebase;
+export { database };
 // test mode
 // {
 //   "rules": {

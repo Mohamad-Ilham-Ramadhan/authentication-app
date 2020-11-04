@@ -1,5 +1,5 @@
 // kalo register sekalian create data user di database firebase
-import firebase from "../../firebase";
+import firebase, { database } from "../../firebase";
 import setRegisterLoading from "./setRegisterLoading";
 import setRegisterErrMsg from "./setRegisterErrMsg";
 import setUser from "./setUser";
@@ -23,9 +23,13 @@ export default function register(
           phoneNumber: response.user.phoneNumber,
           password: password,
         };
-        console.log(user);
         dispatch(setUser(user));
         dispatch(setLoginAuth(true));
+        // save user data in firebase realtime database
+        firebase
+          .database()
+          .ref("users/" + user.uid)
+          .set(user);
       })
       .catch(function (error) {
         dispatch(setRegisterLoading(false));

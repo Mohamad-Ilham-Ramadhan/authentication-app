@@ -19,12 +19,23 @@ import profileImg2 from "../../assets/images/profile2.jpeg";
 // style
 import useStyles from "./style";
 // action
+
+// flow register
+// 1. firebase signin
+// 2. store user in redux
+// 3. use user in redux for <Profile />
+
+// flow login
+// 1. firebase  signin
+// 2. fetch data user di firebase database
+// 3. store data user di redux
+// 4. gunakan data user di <Profile />
+
 function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
-
+  console.log(user);
   useEffect(() => {
-    console.log(isLogin);
     if (!isLogin) {
       history.push(`/login`);
     }
@@ -109,6 +120,7 @@ function Profile({ user, isLogin }) {
 function mapState(state) {
   return {
     isLogin: state.auth.login,
+    user: state.user,
   };
 }
 export default connect(mapState)(Profile);
