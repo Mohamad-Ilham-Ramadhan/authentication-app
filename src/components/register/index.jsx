@@ -25,7 +25,7 @@ import useStyles from "./style";
 // action
 import login from "../../config/redux/actions/login";
 import register from "../../config/redux/actions/register";
-import registerWithProvider from "../../config/redux/actions/registerWithProvider";
+import signInWithProvider from "../../config/redux/actions/signInWithProvider";
 
 function Register({
   isLogin,
@@ -33,7 +33,7 @@ function Register({
   errorMessage,
   loading,
   register,
-  registerWithProvider,
+  signInWithProvider,
 }) {
   const styles = useStyles();
   const [values, setValues] = useState({ email: "", password: "" });
@@ -47,13 +47,11 @@ function Register({
     }
   }, [isLogin]);
   function handleRegister() {
-    setErrMsg("");
     register(values);
   }
   function handleRegisterWithProvider(provider) {
     return function () {
-      console.log("Provider =>", provider);
-      registerWithProvider(provider);
+      signInWithProvider(provider, "register");
     };
   }
   return (
@@ -160,8 +158,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     register: (inputs) => dispatch(register(inputs)),
-    registerWithProvider: (provider) =>
-      dispatch(registerWithProvider(provider)),
+    signInWithProvider: (provider) => dispatch(signInWithProvider(provider)),
   };
 }
 

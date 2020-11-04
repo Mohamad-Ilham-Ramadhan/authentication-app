@@ -1,6 +1,8 @@
 // kalo register sekalian create data user di database firebase
 import firebase from "../../firebase";
 import setRegisterLoading from "./setRegisterLoading";
+import setLoginLoading from "./setLoginLoading";
+import setLoginErrMsg from "./setLoginErrMsg";
 import setRegisterErrMsg from "./setRegisterErrMsg";
 import setUser from "./setUser";
 import setLoginAuth from "./setLoginAuth";
@@ -10,9 +12,13 @@ var facebook = new firebase.auth.FacebookAuthProvider();
 var twitter = new firebase.auth.TwitterAuthProvider();
 var github = new firebase.auth.GithubAuthProvider();
 
-export default function registerWithProvider(provider) {
+export default function registerWithProvider(provider, method) {
   return function (dispatch) {
-    dispatch(setRegisterLoading(true));
+    if (method == "register") {
+      dispatch(setRegisterLoading(true));
+    } else {
+      dispatch(setLoginLoading(true));
+    }
     let usedProvider;
     switch (provider) {
       case "google":
@@ -34,7 +40,11 @@ export default function registerWithProvider(provider) {
       .auth()
       .signInWithPopup(usedProvider)
       .then(function (response) {
-        dispatch(setRegisterLoading(false));
+        if (method == "register") {
+          dispatch(setRegisterLoading(false));
+        } else {
+          dispatch(setLoginLoading(false));
+        }
         const user = {
           isNewUser: response.additionalUserInfo.isNewUser,
           providerId: response.additionalUserInfo.providerId,
@@ -49,9 +59,14 @@ export default function registerWithProvider(provider) {
         dispatch(setLoginAuth(true));
       })
       .catch(function (error) {
-        dispatch(setRegisterLoading(false));
-        var errorMessage = error.message;
-        dispatch(setRegisterErrMsg(errorMessage));
+        const errorMessage = error.message;
+        if (method == "register") {
+          dispatch(setRegisterLoading(false));
+          dispatch(setRegisterErrMsg(errorMessage));
+        } else {
+          dispatch(setLoginLoading(false));
+          dispatch(setLoginErrMsg(errorMessage));
+        }
       });
   };
 }
