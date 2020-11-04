@@ -1,5 +1,4 @@
 const initialState = {
-  isNewUser: null,
   providerId: null,
   credential: null,
   uid: null,

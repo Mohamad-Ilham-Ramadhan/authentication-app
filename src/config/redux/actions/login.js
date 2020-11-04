@@ -15,7 +15,6 @@ export default function login(
       .then(function (response) {
         console.log(response);
         const user = {
-          isNewUser: response.additionalUserInfo.isNewUser,
           providerId: response.additionalUserInfo.providerId,
           uid: response.user.uid,
           email: response.user.email,

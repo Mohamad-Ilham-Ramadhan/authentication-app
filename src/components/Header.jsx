@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -14,6 +15,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import logo from "../assets/images/logo.svg";
 import profileImg from "../assets/images/profile.jpg";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+// actions
+import logout from "../config/redux/actions/logout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ className }) {
+function Header({ className, logout }) {
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -105,7 +108,9 @@ export default function Header({ className }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  function handleLogout() {
+    logout();
+  }
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   return (
@@ -149,7 +154,7 @@ export default function Header({ className }) {
             <ListItemText>Group Chat</ListItemText>
           </ListItem>
           <Divider />
-          <ListItem button className="logout">
+          <ListItem button className="logout" onClick={handleLogout}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
@@ -160,3 +165,14 @@ export default function Header({ className }) {
     </header>
   );
 }
+function mapState(state) {
+  return {
+    isLogin: state.auth.login,
+  };
+}
+function mapDispatch(dispatch) {
+  return {
+    logout: () => dispatch(logout()),
+  };
+}
+export default connect(mapState, mapDispatch)(Header);

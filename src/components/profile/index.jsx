@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -20,16 +19,16 @@ import profileImg2 from "../../assets/images/profile2.jpeg";
 // style
 import useStyles from "./style";
 // action
-function Profile({ user }) {
+function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
-  const login = useSelector((state) => state.auth.login);
 
   useEffect(() => {
-    if (!login) {
+    console.log(isLogin);
+    if (!isLogin) {
       history.push(`/login`);
     }
-  }, [login]);
+  }, [isLogin]);
   return (
     <section className={styles.root}>
       <Header className={styles.header} />
@@ -109,7 +108,7 @@ function Profile({ user }) {
 
 function mapState(state) {
   return {
-    user: state.user,
+    isLogin: state.auth.login,
   };
 }
 export default connect(mapState)(Profile);
