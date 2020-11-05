@@ -120,6 +120,21 @@ const useStyles = makeStyles((theme) => ({
       wordBreak: "break-all",
     },
   },
+  defaultPhoto: {
+    width: 72,
+    height: 72,
+    borderRadius: 8,
+    backgroundColor: theme.palette.neutral.lightGray,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+
+    "& svg": {
+      width: "inherit",
+      height: "inherit",
+      color: "white",
+    },
+  },
 }));
 
 export default useStyles;

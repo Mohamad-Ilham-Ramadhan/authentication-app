@@ -23,13 +23,11 @@ export default function register(
           phoneNumber: response.user.phoneNumber,
           password: password,
         };
+        console.log("register action=>", user);
         dispatch(setUser(user));
         dispatch(setLoginAuth(true));
         // save user data in firebase realtime database
-        firebase
-          .database()
-          .ref("users/" + user.uid)
-          .set(user);
+        firebase.database().ref(`users/${user.uid}`).set(user);
       })
       .catch(function (error) {
         dispatch(setRegisterLoading(false));

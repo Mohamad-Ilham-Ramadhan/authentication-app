@@ -158,7 +158,8 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     register: (inputs) => dispatch(register(inputs)),
-    signInWithProvider: (provider) => dispatch(signInWithProvider(provider)),
+    signInWithProvider: (provider, method) =>
+      dispatch(signInWithProvider(provider, method)),
   };
 }
 

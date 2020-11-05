@@ -12,7 +12,7 @@ var facebook = new firebase.auth.FacebookAuthProvider();
 var twitter = new firebase.auth.TwitterAuthProvider();
 var github = new firebase.auth.GithubAuthProvider();
 
-export default function registerWithProvider(provider, method) {
+export default function signInWithProvider(provider, method) {
   return function (dispatch) {
     if (method == "register") {
       dispatch(setRegisterLoading(true));
@@ -46,23 +46,27 @@ export default function registerWithProvider(provider, method) {
           dispatch(setLoginLoading(false));
         }
         const user = {
-          isNewUser: response.additionalUserInfo.isNewUser,
           providerId: response.additionalUserInfo.providerId,
           uid: response.user.uid,
           email: response.user.email,
           displayName: response.user.displayName,
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
-          password: password,
+          password: "-",
         };
+        if (method == "register") {
+          firebase.database().ref(`users/${user.uid}`).set(user);
+        }
         dispatch(setUser(user));
         dispatch(setLoginAuth(true));
       })
       .catch(function (error) {
         const errorMessage = error.message;
+        console.log("catch method =>", method);
         if (method == "register") {
           dispatch(setRegisterLoading(false));
           dispatch(setRegisterErrMsg(errorMessage));
+          console.log(errorMessage);
         } else {
           dispatch(setLoginLoading(false));
           dispatch(setLoginErrMsg(errorMessage));

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
@@ -9,33 +9,48 @@ import ProfileEdit from "./profile-edit";
 
 // test
 import firebase from "../config/firebase/index";
+import store from "../config/redux/store";
 // actions
 import setLoginAuth from "../config/redux/actions/setLoginAuth";
 import setUser from "../config/redux/actions/setUser";
-function Routes({ isLogin, setLoginAuth, setUser, uid }) {
+import setFirstMount from "../config/redux/actions/setFirstMount";
+
+let firstMount = store.getState().firstMount;
+const dispatch = store.dispatch;
+firebase.auth().onAuthStateChanged(function (user) {
+  // console.log("inside onAuth First mount =>", firstMount);
+  store.subscribe(() => {
+    firstMount = store.getState().firstMount;
+  });
+  if (user && firstMount) {
+    // fetch user
+    console.log("Fetch user!!");
+    firebase
+      .database()
+      .ref("/users/" + user.uid)
+      .once("value")
+      .then(function (snapshot) {
+        dispatch(setUser(snapshot.val()));
+        dispatch(setLoginAuth(true));
+      });
+  } else {
+    // dont fetch
+    console.log("Don't fetch user!!");
+  }
+});
+
+function Routes({
+  isLogin,
+  uid,
+  setLoginAuth,
+  setUser,
+  setFirstMount,
+  firstMount,
+}) {
   const history = useHistory();
+  // const [firstMount, setFirstMount] = useState(true);
   useEffect(() => {
-    console.log(history);
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        const userUsed = {
-          providerId: user.providerData[0].providerId,
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoUrl: user.photoURL,
-          phoneNumber: user.phoneNumber,
-          password: "-",
-        };
-        console.log("User =>", user);
-        setUser(userUsed);
-        setLoginAuth(true);
-      } else {
-        // No user is signed in.
-        console.log("Gak ada user yang sign in geh!");
-      }
-    });
+    setFirstMount(false);
   }, []);
   useEffect(() => {
     if (isLogin) {
@@ -66,12 +81,14 @@ function mapState(state) {
   return {
     isLogin: state.auth.login,
     uid: state.user.uid,
+    firstMount: state.firstMount,
   };
 }
 function mapDispatch(dispatch) {
   return {
     setLoginAuth: (payload) => dispatch(setLoginAuth(payload)),
     setUser: (payload) => dispatch(setUser(payload)),
+    setFirstMount: (payload) => dispatch(setFirstMount(payload)),
   };
 }
 export default connect(mapState, mapDispatch)(Routes);

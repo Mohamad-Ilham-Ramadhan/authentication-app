@@ -16,6 +16,8 @@ import Header from "../Header";
 import Footer from "../Footer";
 import profileImg from "../../assets/images/profile.jpg";
 import profileImg2 from "../../assets/images/profile2.jpeg";
+import PersonIcon from "@material-ui/icons/Person";
+
 // style
 import useStyles from "./style";
 // action
@@ -23,6 +25,7 @@ import useStyles from "./style";
 // flow register
 // 1. firebase signin
 // 2. store user in redux
+// -. kalo isNewUser save data provider di database, kalo tidak maka tidak di save.
 // 3. use user in redux for <Profile />
 
 // flow login
@@ -34,7 +37,7 @@ import useStyles from "./style";
 function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
-  console.log(user);
+  console.log("User =>", user);
   useEffect(() => {
     if (!isLogin) {
       history.push(`/login`);
@@ -73,7 +76,13 @@ function Profile({ user, isLogin }) {
               Photo
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              <img src={profileImg2} alt="" />
+              {user.photoUrl ? (
+                <img src={user.photoUrl} alt="" />
+              ) : (
+                <div className={styles.defaultPhoto}>
+                  <PersonIcon />
+                </div>
+              )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -81,7 +90,7 @@ function Profile({ user, isLogin }) {
               Name
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              Mohamad Ilham Ramadhan
+              {user.displayName ? user.displayName : "-"}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -89,9 +98,7 @@ function Profile({ user, isLogin }) {
               Bio
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
-              <div>
-                Hello, I'm frontend web developer and also a handsome guy.
-              </div>
+              <div>{user.bio ? user.bio : "-"}</div>
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -99,7 +106,7 @@ function Profile({ user, isLogin }) {
               Email
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
-              mohamadilhamramadhan@gmail.com
+              {user.email ? user.email : "-"}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -107,7 +114,12 @@ function Profile({ user, isLogin }) {
               Password
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              *************
+              {user.password
+                ? user.password
+                    .split("")
+                    .map((char) => "*")
+                    .join("")
+                : "-"}
             </Grid>
           </Grid>
         </div>
