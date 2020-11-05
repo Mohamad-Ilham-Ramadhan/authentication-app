@@ -21,9 +21,7 @@ export default function register(
           displayName: response.user.displayName,
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
-          password: password,
         };
-        console.log("register action=>", user);
         dispatch(setUser(user));
         dispatch(setLoginAuth(true));
         // save user data in firebase realtime database

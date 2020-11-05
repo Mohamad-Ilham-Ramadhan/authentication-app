@@ -52,9 +52,9 @@ export default function signInWithProvider(provider, method) {
           displayName: response.user.displayName,
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
-          password: "-",
         };
-        if (method == "register") {
+        const isNewUser = response.additionalUserInfo.isNewUser;
+        if (isNewUser) {
           firebase.database().ref(`users/${user.uid}`).set(user);
         }
         dispatch(setUser(user));
@@ -62,11 +62,9 @@ export default function signInWithProvider(provider, method) {
       })
       .catch(function (error) {
         const errorMessage = error.message;
-        console.log("catch method =>", method);
         if (method == "register") {
           dispatch(setRegisterLoading(false));
           dispatch(setRegisterErrMsg(errorMessage));
-          console.log(errorMessage);
         } else {
           dispatch(setLoginLoading(false));
           dispatch(setLoginErrMsg(errorMessage));

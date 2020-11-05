@@ -74,6 +74,7 @@ function Register({
             value={values.email}
             onChange={handleChange}
             icon={<EmailIcon />}
+            disabled={loading}
           />
           <p className={styles.errMsg}>{errorMessage}</p>
           <Input
@@ -84,6 +85,7 @@ function Register({
             value={values.password}
             onChange={handleChange}
             icon={<LockIcon />}
+            disabled={loading}
           />
 
           <Button

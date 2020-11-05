@@ -103,6 +103,14 @@ function Profile({ user, isLogin }) {
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
+              Phone
+            </Grid>
+            <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
+              <div>{user.phoneNumber ? user.phoneNumber : "-"}</div>
+            </Grid>
+          </Grid>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={4} className={styles.gridKey}>
               Email
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
@@ -114,12 +122,7 @@ function Profile({ user, isLogin }) {
               Password
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {user.password
-                ? user.password
-                    .split("")
-                    .map((char) => "*")
-                    .join("")
-                : "-"}
+              {user.providerId == "password" ? "**********" : "-"}
             </Grid>
           </Grid>
         </div>
