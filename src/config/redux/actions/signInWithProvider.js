@@ -45,7 +45,7 @@ export default function signInWithProvider(provider, method) {
         } else {
           dispatch(setLoginLoading(false));
         }
-        const user = {
+        let user = {
           providerId: response.additionalUserInfo.providerId,
           uid: response.user.uid,
           email: response.user.email,
@@ -56,9 +56,34 @@ export default function signInWithProvider(provider, method) {
         const isNewUser = response.additionalUserInfo.isNewUser;
         if (isNewUser) {
           firebase.database().ref(`users/${user.uid}`).set(user);
+          dispatch(setUser(user));
+          dispatch(setLoginAuth(true));
+        } else {
+          if ((provider = "google")) {
+            firebase
+              .database()
+              .ref("/users/" + user.uid)
+              .once("value")
+              .then((snapshot) => {
+                let user = snapshot.val();
+                if (user.providerId != "google.com") {
+                  user.providerId = "google.com";
+                  firebase
+                    .database()
+                    .ref(`users/${user.uid}`)
+                    .update({ providerId: "google.com" })
+                    .then((res) => {
+                      dispatch(setUser(user));
+                      dispatch(setLoginAuth(true));
+                    });
+                } else {
+                }
+              })
+              .catch((error) => {
+                console.log("Fetch data error!");
+              });
+          }
         }
-        dispatch(setUser(user));
-        dispatch(setLoginAuth(true));
       })
       .catch(function (error) {
         const errorMessage = error.message;
