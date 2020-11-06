@@ -53,7 +53,6 @@ function Routes({
     setFirstMount(false);
   }, []);
   useEffect(() => {
-    console.log("change in isLogin =>", isLogin);
     if (isLogin) {
       history.push(`/profile/${uid}`);
     }

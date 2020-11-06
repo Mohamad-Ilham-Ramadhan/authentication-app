@@ -36,7 +36,7 @@ function ProfileEdit({ user }) {
     url: "",
     name: user.displayName,
     bio: user.bio,
-    phone: user.phone,
+    phone: user.phoneNumber,
     email: user.email,
     password: "",
   });

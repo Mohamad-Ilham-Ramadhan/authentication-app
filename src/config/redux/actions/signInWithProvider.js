@@ -65,7 +65,7 @@ export default function signInWithProvider(provider, method) {
               .ref("/users/" + user.uid)
               .once("value")
               .then((snapshot) => {
-                let user = snapshot.val();
+                let user = snapshot.val(); // user dari database, yang akan digunakan ketika akun sudah ada.
                 // jika providerId sebelumnya bukan google maka override dengan google
                 if (user.providerId != "google.com") {
                   user.providerId = "google.com";
@@ -77,8 +77,9 @@ export default function signInWithProvider(provider, method) {
                       dispatch(setUser(user));
                       dispatch(setLoginAuth(true));
                     });
-                  // jika providerId sebelumnya google maka lanjut aja.
+                  // jika providerId sebelumnya google maka lanjut aja. (login)
                 } else {
+                  console.log("user login =>", user);
                   dispatch(setUser(user));
                   dispatch(setLoginAuth(true));
                 }
