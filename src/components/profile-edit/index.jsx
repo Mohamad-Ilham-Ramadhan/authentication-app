@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
+import { connect } from "react-redux";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Header from "../Header";
 import Footer from "../Footer";
@@ -23,20 +24,20 @@ import PhotoIcon from "@material-ui/icons/Photo";
 // style
 import useStyles from "./style";
 
-export default function ProfileEdit() {
+function ProfileEdit({ user }) {
   const styles = useStyles();
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openUrl, setOpenUrl] = useState(false);
-  const [url, setUrl] = useState(null);
   const fileRef = useRef(null);
   const [filename, setFilename] = useState(null);
   // input values:
   const [values, setValues] = useState({
     url: "",
-    name: "",
-    bio: "",
-    phone: "",
-    email: "",
+    name: user.displayName,
+    bio: user.bio,
+    phone: user.phone,
+    email: user.email,
     password: "",
   });
   function handleChange(e) {
@@ -44,6 +45,9 @@ export default function ProfileEdit() {
       ...prevValues,
       [e.target.id]: e.target.value,
     }));
+  }
+  function handleClickBack() {
+    history.goBack();
   }
   function handleClickPhoto() {
     setOpen(true);
@@ -98,7 +102,7 @@ export default function ProfileEdit() {
       </Dialog>
       <Header className={styles.header} />
       <Container>
-        <Link className={styles.back}>
+        <Link className={styles.back} onClick={handleClickBack}>
           <ArrowBackIcon fontSize="small" />
           Back
         </Link>
@@ -216,3 +220,12 @@ export default function ProfileEdit() {
     </section>
   );
 }
+function mapState(state) {
+  return {
+    user: state.user,
+  };
+}
+function mapDispatch(dispatch) {
+  return {};
+}
+export default connect(mapState, mapDispatch)(ProfileEdit);

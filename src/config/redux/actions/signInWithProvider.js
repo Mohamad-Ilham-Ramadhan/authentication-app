@@ -66,6 +66,7 @@ export default function signInWithProvider(provider, method) {
               .once("value")
               .then((snapshot) => {
                 let user = snapshot.val();
+                // jika providerId sebelumnya bukan google maka override dengan google
                 if (user.providerId != "google.com") {
                   user.providerId = "google.com";
                   firebase
@@ -76,7 +77,10 @@ export default function signInWithProvider(provider, method) {
                       dispatch(setUser(user));
                       dispatch(setLoginAuth(true));
                     });
+                  // jika providerId sebelumnya google maka lanjut aja.
                 } else {
+                  dispatch(setUser(user));
+                  dispatch(setLoginAuth(true));
                 }
               })
               .catch((error) => {

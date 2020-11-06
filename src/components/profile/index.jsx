@@ -37,12 +37,9 @@ import useStyles from "./style";
 function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
-  console.log("User =>", user);
-  useEffect(() => {
-    if (!isLogin) {
-      history.push(`/login`);
-    }
-  }, [isLogin]);
+  function handleClickEdit() {
+    history.push(`/profile/${user.uid}/edit`);
+  }
   return (
     <section className={styles.root}>
       <Header className={styles.header} />
@@ -66,7 +63,11 @@ function Profile({ user, isLogin }) {
               </Typography>
             </Grid>
             <Grid item xs={5} className={styles.gridEdit}>
-              <Button variant="outlined" className={styles.edit}>
+              <Button
+                variant="outlined"
+                className={styles.edit}
+                onClick={handleClickEdit}
+              >
                 Edit
               </Button>
             </Grid>
