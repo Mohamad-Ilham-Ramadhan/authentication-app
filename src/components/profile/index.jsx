@@ -37,6 +37,7 @@ import useStyles from "./style";
 function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
+  useEffect(() => {}, []);
   function handleClickEdit() {
     history.push(`/profile/${user.uid}/edit`);
   }

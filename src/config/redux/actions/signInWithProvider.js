@@ -1,5 +1,5 @@
 // kalo register sekalian create data user di database firebase
-import firebase from "../../firebase";
+import firebase, { database } from "../../firebase";
 import setRegisterLoading from "./setRegisterLoading";
 import setLoginLoading from "./setLoginLoading";
 import setLoginErrMsg from "./setLoginErrMsg";
@@ -53,43 +53,27 @@ export default function signInWithProvider(provider, method) {
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
         };
-        console.log("response =>", response);
-        console.log("google user =>", user);
         const isNewUser = response.additionalUserInfo.isNewUser;
         if (isNewUser) {
-          firebase.database().ref(`users/${user.uid}`).set(user);
-          dispatch(setUser(user));
-          dispatch(setLoginAuth(true));
+          // fetch bio jika login
+          database
+            .ref(`users/${user.uid}`)
+            .set({
+              bio: "",
+            })
+            .then(() => {
+              dispatch(setUser(user));
+              dispatch(setLoginAuth(true));
+            });
         } else {
-          if ((provider = "google")) {
-            firebase
-              .database()
-              .ref("/users/" + user.uid)
-              .once("value")
-              .then((snapshot) => {
-                let user = snapshot.val(); // user dari database, yang akan digunakan ketika akun sudah ada.
-                // jika providerId sebelumnya bukan google maka override dengan google
-                if (user.providerId != "google.com") {
-                  user.providerId = "google.com";
-                  firebase
-                    .database()
-                    .ref(`users/${user.uid}`)
-                    .update({ providerId: "google.com" })
-                    .then((res) => {
-                      dispatch(setUser(user));
-                      dispatch(setLoginAuth(true));
-                    });
-                  // jika providerId sebelumnya google maka lanjut aja. (login)
-                } else {
-                  console.log("user login =>", user);
-                  dispatch(setUser(user));
-                  dispatch(setLoginAuth(true));
-                }
-              })
-              .catch((error) => {
-                console.log("Fetch data error!");
-              });
-          }
+          database
+            .ref("/users/" + user.uid)
+            .once("value")
+            .then(function (snapshot) {
+              user.bio = snapshot.val().bio || "";
+              dispatch(setUser(user));
+              dispatch(setLoginAuth(true));
+            });
         }
       })
       .catch(function (error) {
