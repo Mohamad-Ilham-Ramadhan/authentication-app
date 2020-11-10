@@ -6,12 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Header from "../Header";
 import Footer from "../Footer";
 import profileImg from "../../assets/images/profile.jpg";
@@ -22,22 +16,12 @@ import PersonIcon from "@material-ui/icons/Person";
 import useStyles from "./style";
 // action
 
-// flow register
-// 1. firebase signin
-// 2. store user in redux
-// -. kalo isNewUser save data provider di database, kalo tidak maka tidak di save.
-// 3. use user in redux for <Profile />
-
-// flow login
-// 1. firebase  signin
-// 2. fetch data user di firebase database
-// 3. store data user di redux
-// 4. gunakan data user di <Profile />
-
 function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("what the fuck");
+  }, []);
   function handleClickEdit() {
     history.push(`/profile/${user.uid}/edit`);
   }
@@ -64,13 +48,15 @@ function Profile({ user, isLogin }) {
               </Typography>
             </Grid>
             <Grid item xs={5} className={styles.gridEdit}>
-              <Button
-                variant="outlined"
-                className={styles.edit}
-                onClick={handleClickEdit}
-              >
-                Edit
-              </Button>
+              {isLogin && (
+                <Button
+                  variant="outlined"
+                  className={styles.edit}
+                  onClick={handleClickEdit}
+                >
+                  Edit
+                </Button>
+              )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>

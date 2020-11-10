@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
@@ -16,6 +16,7 @@ import logo from "../assets/images/logo.svg";
 import profileImg from "../assets/images/profile.jpg";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import PersonIcon from "@material-ui/icons/Person";
+import Button from "@material-ui/core/Button";
 // actions
 import logout from "../config/redux/actions/logout";
 
@@ -102,17 +103,28 @@ const useStyles = makeStyles((theme) => ({
       display: "inline-block",
     },
   },
+  login: {
+    marginLeft: "auto",
+    "&:hover": {
+      textDecoration: "none",
+    },
+    "& .MuiButton-root": {
+      backgroundColor: theme.palette.neutral.darkGray,
+      color: "white",
+      "&:hover": {
+        backgroundColor: "black",
+      },
+    },
+  },
 }));
 
 function Header({ className, isLogin, logout, user }) {
   const styles = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
-  useEffect(() => {
-    if (!isLogin) {
-      history.push("/login");
-    }
-  }, [isLogin]);
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -123,22 +135,35 @@ function Header({ className, isLogin, logout, user }) {
   function handleLogout() {
     logout();
   }
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  function handleClickLogin() {
+    history.push(`/login`);
+  }
   return (
     <header className={clsx(styles.root, className)}>
       <img src={logo} alt="" />
-      <div className={styles.menu} onClick={handleClick} role="button">
-        <div className="profile-img">
-          {user.photoUrl ? <img src={user.photoUrl} alt="" /> : <PersonIcon />}
+      {isLogin ? (
+        <div className={styles.menu} onClick={handleClick} role="button">
+          <div className="profile-img">
+            {user.photoUrl ? (
+              <img src={user.photoUrl} alt="" />
+            ) : (
+              <PersonIcon />
+            )}
+          </div>
+          <span className={styles.name}>
+            {user.displayName ? user.displayName : user.email}
+          </span>
+          <ArrowDropDownIcon
+            className={clsx(styles.dropdownIcon, open ? "open" : "close")}
+          />
         </div>
-        <span className={styles.name}>
-          {user.displayName ? user.displayName : user.email}
-        </span>
-        <ArrowDropDownIcon
-          className={clsx(styles.dropdownIcon, open ? "open" : "close")}
-        />
-      </div>
+      ) : (
+        <Link to="/login" className={styles.login}>
+          <Button variant="contained" disableElevation size="small">
+            Login
+          </Button>
+        </Link>
+      )}
       <Popover
         id={id}
         open={open}
