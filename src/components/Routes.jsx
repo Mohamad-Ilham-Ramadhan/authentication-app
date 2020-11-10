@@ -15,28 +15,28 @@ import setLoginAuth from "../config/redux/actions/setLoginAuth";
 import setUser from "../config/redux/actions/setUser";
 import setFirstMount from "../config/redux/actions/setFirstMount";
 
-let firstMount = store.getState().firstMount;
-const dispatch = store.dispatch;
-firebase.auth().onAuthStateChanged(function (user) {
-  store.subscribe(() => {
-    firstMount = store.getState().firstMount;
-  });
-  if (user && firstMount) {
-    // fetch user
-    console.log("Fetch user!!");
-    firebase
-      .database()
-      .ref("/users/" + user.uid)
-      .once("value")
-      .then(function (snapshot) {
-        dispatch(setUser(snapshot.val()));
-        dispatch(setLoginAuth(true));
-      });
-  } else {
-    // dont fetch
-    console.log("Don't fetch user!!");
-  }
-});
+// let firstMount = store.getState().firstMount;
+// const dispatch = store.dispatch;
+// firebase.auth().onAuthStateChanged(function (user) {
+//   store.subscribe(() => {
+//     firstMount = store.getState().firstMount;
+//   });
+//   if (user) {
+//     // fetch user
+//     console.log("Fetch user!!");
+//     firebase
+//       .database()
+//       .ref("/users/" + user.uid)
+//       .once("value")
+//       .then(function (snapshot) {
+//         dispatch(setUser(snapshot.val()));
+//         dispatch(setLoginAuth(true));
+//       });
+//   } else {
+//     // dont fetch
+//     console.log("Don't fetch user!!");
+//   }
+// });
 
 function Routes({
   isLogin,
@@ -47,18 +47,7 @@ function Routes({
   firstMount,
 }) {
   const history = useHistory();
-  // const [firstMount, setFirstMount] = useState(true);
-  useEffect(() => {
-    setFirstMount(false);
-  }, []);
-  useEffect(() => {
-    if (isLogin) {
-      history.push(`/profile/${uid}`);
-    }
-    if (!isLogin) {
-      history.push(`/login`);
-    }
-  }, [isLogin]);
+
   return (
     <Switch>
       <Route path="/login">

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Popover from "@material-ui/core/Popover";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -104,10 +104,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ className, logout, user }) {
+function Header({ className, isLogin, logout, user }) {
   const styles = useStyles();
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
-
+  useEffect(() => {
+    if (!isLogin) {
+      history.push("/login");
+    }
+  }, [isLogin]);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
