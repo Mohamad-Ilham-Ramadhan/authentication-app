@@ -18,7 +18,6 @@ import setFirstMount from "../config/redux/actions/setFirstMount";
 let firstMount = store.getState().firstMount;
 const dispatch = store.dispatch;
 firebase.auth().onAuthStateChanged(function (user) {
-  console.log(user);
   store.subscribe(() => {
     firstMount = store.getState().firstMount;
   });

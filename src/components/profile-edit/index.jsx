@@ -23,8 +23,10 @@ import LinkIcon from "@material-ui/icons/Link";
 import PhotoIcon from "@material-ui/icons/Photo";
 // style
 import useStyles from "./style";
+// actions
+import updateUser from "../../config/redux/actions/updateUser";
 
-function ProfileEdit({ user }) {
+function ProfileEdit({ user, updateUser }) {
   const styles = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -71,6 +73,9 @@ function ProfileEdit({ user }) {
   function handleClickDoneUrl() {
     setOpenUrl(false);
     setFilename(values.url);
+  }
+  function handleClickSave() {
+    updateUser(values);
   }
   return (
     <section>
@@ -210,6 +215,7 @@ function ProfileEdit({ user }) {
               color="primary"
               className={styles.save}
               disableElevation
+              onClick={handleClickSave}
             >
               Save
             </Button>
@@ -226,6 +232,8 @@ function mapState(state) {
   };
 }
 function mapDispatch(dispatch) {
-  return {};
+  return {
+    updateUser: (data) => dispatch(updateUser(data)),
+  };
 }
 export default connect(mapState, mapDispatch)(ProfileEdit);

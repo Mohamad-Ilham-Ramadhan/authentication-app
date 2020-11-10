@@ -53,6 +53,8 @@ export default function signInWithProvider(provider, method) {
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
         };
+        console.log("response =>", response);
+        console.log("google user =>", user);
         const isNewUser = response.additionalUserInfo.isNewUser;
         if (isNewUser) {
           firebase.database().ref(`users/${user.uid}`).set(user);
