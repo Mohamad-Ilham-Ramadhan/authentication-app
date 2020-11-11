@@ -1,11 +1,11 @@
 // kalo register sekalian create data user di database firebase
 import firebase, { database } from "../../firebase";
-import setRegisterLoading from "./setRegisterLoading";
-import setLoginLoading from "./setLoginLoading";
-import setLoginErrMsg from "./setLoginErrMsg";
-import setRegisterErrMsg from "./setRegisterErrMsg";
+import setLoadingRegister from "./setLoadingRegister";
+import setLoadingLogin from "./setLoadingLogin";
+import setErrMsgLogin from "./setErrMsgLogin";
+import setErrMsgRegister from "./setErrMsgRegister";
 import setUser from "./setUser";
-import setLoginAuth from "./setLoginAuth";
+import setAuthLogin from "./setAuthLogin";
 
 var google = new firebase.auth.GoogleAuthProvider();
 var facebook = new firebase.auth.FacebookAuthProvider();
@@ -15,9 +15,9 @@ var github = new firebase.auth.GithubAuthProvider();
 export default function signInWithProvider(provider, method) {
   return function (dispatch) {
     if (method == "register") {
-      dispatch(setRegisterLoading(true));
+      dispatch(setLoadingRegister(true));
     } else {
-      dispatch(setLoginLoading(true));
+      dispatch(setLoadingLogin(true));
     }
     let usedProvider;
     switch (provider) {
@@ -42,9 +42,9 @@ export default function signInWithProvider(provider, method) {
       .then(function (response) {
         console.log("providerId =>", response.additionalUserInfo.providerId);
         if (method == "register") {
-          dispatch(setRegisterLoading(false));
+          dispatch(setLoadingRegister(false));
         } else {
-          dispatch(setLoginLoading(false));
+          dispatch(setLoadingLogin(false));
         }
         let user = {
           uid: response.user.uid,
@@ -64,7 +64,7 @@ export default function signInWithProvider(provider, method) {
             .set(user)
             .then(() => {
               dispatch(setUser(user));
-              dispatch(setLoginAuth(true));
+              dispatch(setAuthLogin(true));
             });
         } else {
           // jika terjadi overwrite maka set password = false
@@ -75,18 +75,18 @@ export default function signInWithProvider(provider, method) {
               user.bio = snapshot.val().bio || "";
               user.password = snapshot.val().password || false;
               dispatch(setUser(user));
-              dispatch(setLoginAuth(true));
+              dispatch(setAuthLogin(true));
             });
         }
       })
       .catch(function (error) {
         const errorMessage = error.message;
         if (method == "register") {
-          dispatch(setRegisterLoading(false));
-          dispatch(setRegisterErrMsg(errorMessage));
+          dispatch(setLoadingRegister(false));
+          dispatch(setErrMsgRegister(errorMessage));
         } else {
-          dispatch(setLoginLoading(false));
-          dispatch(setLoginErrMsg(errorMessage));
+          dispatch(setLoadingLogin(false));
+          dispatch(setErrMsgLogin(errorMessage));
         }
       });
   };

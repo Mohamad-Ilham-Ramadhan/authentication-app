@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import clsx from "clsx";
 import { Link, useHistory } from "react-router-dom";
@@ -26,7 +26,7 @@ import useStyles from "./style";
 // actions
 import updateUser from "../../config/redux/actions/updateUser";
 
-function ProfileEdit({ user, updateUser }) {
+function ProfileEdit({ user, updateUser, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -42,6 +42,11 @@ function ProfileEdit({ user, updateUser }) {
     email: user.email,
     password: "",
   });
+  useEffect(() => {
+    if (!isLogin) {
+      history.push(`/`);
+    }
+  }, [isLogin]);
   function handleChange(e) {
     setValues((prevValues) => ({
       ...prevValues,
@@ -229,6 +234,7 @@ function ProfileEdit({ user, updateUser }) {
 function mapState(state) {
   return {
     user: state.user,
+    isLogin: state.auth.login,
   };
 }
 function mapDispatch(dispatch) {

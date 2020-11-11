@@ -23,7 +23,6 @@ import Input from "../form/Input";
 // style
 import useStyles from "./style";
 // action
-import login from "../../config/redux/actions/login";
 import register from "../../config/redux/actions/register";
 import signInWithProvider from "../../config/redux/actions/signInWithProvider";
 

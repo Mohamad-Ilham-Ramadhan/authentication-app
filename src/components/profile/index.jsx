@@ -15,8 +15,8 @@ import firebase, { database } from "../../config/firebase";
 // style
 import useStyles from "./style";
 // action
-
-function Profile({ user, isLogin, loadingUser }) {
+import setLoadingUser from "../../config/redux/actions/setLoadingUser";
+function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   const styles = useStyles();
   const history = useHistory();
   let usedUser = {};
@@ -24,14 +24,22 @@ function Profile({ user, isLogin, loadingUser }) {
   //   console.log("User =>", user);
   if (!user.uid) {
     // fetch user.
-    usedUser = {
-      // photoUrl: "asdfasdf.jpg",
-      displayName: "Ilham Dragunov",
-      bio: "Dragon Slayer",
-      phoneNumber: "082246796965",
-      email: "ilhamdragun@gmail.com",
-      providerId: "google.com",
-    };
+    setLoadingUser(true);
+    database
+      .ref(`users/${user.uid}`)
+      .once("value")
+      .then((snapshot) => {
+        const result = snapshot.val();
+        usedUser = {
+          photoUrl: result.photoUrl,
+          displayName: result.displayName,
+          bio: result.bio,
+          phoneNumber: result.phoneNumber,
+          email: result.email,
+          providerId: result.providerId,
+        };
+        setLoadingUser(false);
+      });
   } else {
     usedUser = user;
   }
@@ -202,4 +210,9 @@ function mapState(state) {
     loadingUser: state.loadings.user,
   };
 }
-export default connect(mapState)(Profile);
+function mapDispatch(dispatch) {
+  return {
+    setLoadingUser: (payload) => dispatch(setLoadingUser(payload)),
+  };
+}
+export default connect(mapState, mapDispatch)(Profile);

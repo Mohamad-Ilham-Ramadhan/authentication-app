@@ -1,19 +1,19 @@
 // kalo register sekalian create data user di database firebase
 import firebase, { database } from "../../firebase";
-import setRegisterLoading from "./setRegisterLoading";
-import setRegisterErrMsg from "./setRegisterErrMsg";
+import setLoadingRegister from "./setLoadingRegister";
+import setErrMsgRegister from "./setErrMsgRegister";
 import setUser from "./setUser";
-import setLoginAuth from "./setLoginAuth";
+import setAuthLogin from "./setAuthLogin";
 export default function register(
   { email, password } = { email: "", password: "" }
 ) {
   return function (dispatch) {
-    dispatch(setRegisterLoading(true));
+    dispatch(setLoadingRegister(true));
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(function (response) {
-        dispatch(setRegisterLoading(false));
+        dispatch(setLoadingRegister(false));
         const user = {
           uid: response.user.uid,
           email: response.user.email,
@@ -29,14 +29,14 @@ export default function register(
           .set(user)
           .then(() => {
             dispatch(setUser(user));
-            dispatch(setLoginAuth(true));
+            dispatch(setAuthLogin(true));
           });
       })
       .catch(function (error) {
-        dispatch(setRegisterLoading(false));
+        dispatch(setLoadingRegister(false));
         const errorCode = error.code;
         const errorMessage = error.message;
-        dispatch(setRegisterErrMsg(errorMessage));
+        dispatch(setErrMsgRegister(errorMessage));
       });
   };
 }

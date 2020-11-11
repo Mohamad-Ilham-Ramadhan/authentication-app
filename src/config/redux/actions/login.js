@@ -1,14 +1,14 @@
 import firebase, { database } from "../../firebase";
 import setUser from "./setUser";
-import setLoginAuth from "./setLoginAuth";
-import setLoginErrMsg from "./setLoginErrMsg";
-import setLoginLoading from "./setLoginLoading";
+import setAuthLogin from "./setAuthLogin";
+import setErrMsgLogin from "./setErrMsgLogin";
+import setLoadingLogin from "./setLoadingLogin";
 
 export default function login(
   { email, password } = { email: "", password: "" }
 ) {
   return function (dispatch) {
-    dispatch(setLoginLoading(true));
+    dispatch(setLoadingLogin(true));
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -27,18 +27,18 @@ export default function login(
           .then((snapshot) => {
             (user.bio = snapshot.val().bio || ""),
               (user.password = snapshot.val().password || false),
-              dispatch(setLoginLoading(false));
-            dispatch(setLoginErrMsg(""));
+              dispatch(setLoadingLogin(false));
+            dispatch(setErrMsgLogin(""));
             dispatch(setUser(user));
-            dispatch(setLoginAuth(true));
+            dispatch(setAuthLogin(true));
           });
       })
       .catch(function (error) {
-        dispatch(setLoginLoading(false));
+        dispatch(setLoadingLogin(false));
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        dispatch(setLoginErrMsg(errorMessage));
+        dispatch(setErrMsgLogin(errorMessage));
       });
   };
 }

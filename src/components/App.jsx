@@ -4,11 +4,11 @@ import Routes from "./Routes";
 import store from "../config/redux/store";
 import firebase, { database } from "../config/firebase";
 // actions:
-import setUserLoading from "../config/redux/actions/setUserLoading";
-import setLoginLoading from "../config/redux/actions/setLoginLoading";
-import setRegisterLoading from "../config/redux/actions/setRegisterLoading";
+import setLoadingUser from "../config/redux/actions/setLoadingUser";
+import setLoadingLogin from "../config/redux/actions/setLoadingLogin";
+import setLoadingRegister from "../config/redux/actions/setLoadingRegister";
 import setUser from "../config/redux/actions/setUser";
-import setLoginAuth from "../config/redux/actions/setLoginAuth";
+import setAuthLogin from "../config/redux/actions/setAuthLogin";
 export default function App() {
   useEffect(() => {
     console.log("APP DID MOUNT!");
@@ -17,7 +17,7 @@ export default function App() {
       console.log("ON AUTH STATE CHANGE CALLED!");
       if (user) {
         // fetch user
-        dispatch(setUserLoading(true));
+        dispatch(setLoadingUser(true));
         console.log("Fetch user!!");
         console.log(user);
         database
@@ -25,17 +25,17 @@ export default function App() {
           .once("value")
           .then((snapshot) => {
             dispatch(setUser(snapshot.val()));
-            dispatch(setLoginAuth(true));
-            dispatch(setUserLoading(false));
-            dispatch(setRegisterLoading(false));
-            dispatch(setLoginLoading(false));
+            dispatch(setAuthLogin(true));
+            dispatch(setLoadingUser(false));
+            dispatch(setLoadingRegister(false));
+            dispatch(setLoadingLogin(false));
           });
       } else {
         // dont fetch
         console.log("Don't fetch user!!");
-        dispatch(setUserLoading(false));
-        dispatch(setRegisterLoading(false));
-        dispatch(setLoginLoading(false));
+        dispatch(setLoadingUser(false));
+        dispatch(setLoadingRegister(false));
+        dispatch(setLoadingLogin(false));
       }
     });
   });

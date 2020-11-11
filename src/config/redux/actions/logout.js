@@ -1,5 +1,5 @@
 import firebase from "../../firebase/index";
-import setLoginAuth from "./setLoginAuth";
+import setAuthLogin from "./setAuthLogin";
 
 export default function logout() {
   return function (dispatch) {
@@ -7,7 +7,7 @@ export default function logout() {
       .auth()
       .signOut()
       .then(function () {
-        dispatch(setLoginAuth(false));
+        dispatch(setAuthLogin(false));
       })
       .catch(function (error) {
         console.log("Error =>", error);

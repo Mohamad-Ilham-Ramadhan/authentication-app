@@ -42,7 +42,6 @@ function Login({
   }
   useEffect(() => {
     if (isLogin) {
-      console.log("push back!");
       history.push(`/profile/${uid}`);
     }
   }, [isLogin, uid]);
