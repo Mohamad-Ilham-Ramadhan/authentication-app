@@ -51,7 +51,6 @@ function Login({
   }
   function handleLoginWithProvider(provider) {
     return function () {
-      console.log("Provider =>", provider);
       signInWithProvider(provider);
     };
   }

@@ -11,7 +11,7 @@ import Footer from "../Footer";
 import profileImg from "../../assets/images/profile.jpg";
 import profileImg2 from "../../assets/images/profile2.jpeg";
 import PersonIcon from "@material-ui/icons/Person";
-
+import firebase, { database } from "../../config/firebase";
 // style
 import useStyles from "./style";
 // action
@@ -19,9 +19,22 @@ import useStyles from "./style";
 function Profile({ user, isLogin }) {
   const styles = useStyles();
   const history = useHistory();
-  useEffect(() => {
-    console.log("what the fuck");
-  }, []);
+  let usedUser = {};
+  // useEffect(() => {
+  //   console.log("User =>", user);
+  if (!user.uid) {
+    // firebase.auth
+    usedUser = {
+      // photoUrl: "asdfasdf.jpg",
+      displayName: "Ilham Dragunov",
+      bio: "Dragon Slayer",
+      phoneNumber: "082246796965",
+      email: "ilhamdragun@gmail.com",
+      providerId: "google.com",
+    };
+  } else {
+    usedUser = user;
+  }
   function handleClickEdit() {
     history.push(`/profile/${user.uid}/edit`);
   }
@@ -64,8 +77,8 @@ function Profile({ user, isLogin }) {
               Photo
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {user.photoUrl ? (
-                <img src={user.photoUrl} alt="" />
+              {usedUser.photoUrl ? (
+                <img src={usedUser.photoUrl} alt="" />
               ) : (
                 <div className={styles.defaultPhoto}>
                   <PersonIcon />
@@ -78,7 +91,7 @@ function Profile({ user, isLogin }) {
               Name
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {user.displayName ? user.displayName : "-"}
+              {usedUser.displayName ? usedUser.displayName : "-"}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -86,7 +99,7 @@ function Profile({ user, isLogin }) {
               Bio
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
-              <div>{user.bio ? user.bio : "-"}</div>
+              <div>{usedUser.bio ? usedUser.bio : "-"}</div>
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -94,7 +107,7 @@ function Profile({ user, isLogin }) {
               Phone
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
-              <div>{user.phoneNumber ? user.phoneNumber : "-"}</div>
+              <div>{usedUser.phoneNumber ? usedUser.phoneNumber : "-"}</div>
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -102,7 +115,7 @@ function Profile({ user, isLogin }) {
               Email
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
-              {user.email ? user.email : "-"}
+              {usedUser.email ? usedUser.email : "-"}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
@@ -110,7 +123,7 @@ function Profile({ user, isLogin }) {
               Password
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {user.providerId == "password" ? "**********" : "-"}
+              {usedUser.providerId == "password" ? "**********" : "-"}
             </Grid>
           </Grid>
         </div>

@@ -15,17 +15,22 @@ export default function register(
       .then(function (response) {
         dispatch(setRegisterLoading(false));
         const user = {
-          providerId: response.additionalUserInfo.providerId,
           uid: response.user.uid,
           email: response.user.email,
           displayName: response.user.displayName,
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
+          password: true,
+          bio: "",
         };
-        dispatch(setUser(user));
-        dispatch(setLoginAuth(true));
         // save user data in firebase realtime database
-        firebase.database().ref(`users/${user.uid}`).set(user);
+        database
+          .ref(`users/${user.uid}`)
+          .set(user)
+          .then(() => {
+            dispatch(setUser(user));
+            dispatch(setLoginAuth(true));
+          });
       })
       .catch(function (error) {
         dispatch(setRegisterLoading(false));

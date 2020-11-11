@@ -1,4 +1,4 @@
-import firebase from "../../firebase";
+import firebase, { database } from "../../firebase";
 import setUser from "./setUser";
 import setLoginAuth from "./setLoginAuth";
 import setLoginErrMsg from "./setLoginErrMsg";
@@ -14,19 +14,24 @@ export default function login(
       .signInWithEmailAndPassword(email, password)
       .then(function (response) {
         console.log(response);
-        const user = {
-          providerId: response.additionalUserInfo.providerId,
+        let user = {
           uid: response.user.uid,
           email: response.user.email,
           displayName: response.user.displayName,
           photoUrl: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
-          password: password,
         };
-        dispatch(setLoginLoading(false));
-        dispatch(setLoginErrMsg(""));
-        dispatch(setUser(user));
-        dispatch(setLoginAuth(true));
+        database
+          .ref(`users/${user.uid}`)
+          .once("value")
+          .then((snapshot) => {
+            (user.bio = snapshot.val().bio || ""),
+              (user.password = snapshot.val().password || false),
+              dispatch(setLoginLoading(false));
+            dispatch(setLoginErrMsg(""));
+            dispatch(setUser(user));
+            dispatch(setLoginAuth(true));
+          });
       })
       .catch(function (error) {
         dispatch(setLoginLoading(false));

@@ -17,8 +17,10 @@ import profileImg from "../assets/images/profile.jpg";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import PersonIcon from "@material-ui/icons/Person";
 import Button from "@material-ui/core/Button";
+import CicularProgress from "@material-ui/core/CircularProgress";
 // actions
 import logout from "../config/redux/actions/logout";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,6 +110,12 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       textDecoration: "none",
     },
+    "&.disabled": {
+      cursor: "not-allowed",
+      "& .MuiButton-root": {
+        cursor: "inherit",
+      },
+    },
     "& .MuiButton-root": {
       backgroundColor: theme.palette.neutral.darkGray,
       color: "white",
@@ -116,9 +124,13 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  loadingButton: {
+    color: "white",
+    // position: "absolute",
+  },
 }));
 
-function Header({ className, isLogin, logout, user }) {
+function Header({ className, isLogin, logout, user, loadingUser }) {
   const styles = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -158,9 +170,16 @@ function Header({ className, isLogin, logout, user }) {
           />
         </div>
       ) : (
-        <Link to="/login" className={styles.login}>
+        <Link
+          to={loadingUser ? null : "/login"}
+          className={clsx(styles.login, loadingUser ? "disabled" : null)}
+        >
           <Button variant="contained" disableElevation size="small">
-            Login
+            {loadingUser ? (
+              <CicularProgress size={18} className={styles.loadingButton} />
+            ) : (
+              "Login"
+            )}
           </Button>
         </Link>
       )}
@@ -180,20 +199,27 @@ function Header({ className, isLogin, logout, user }) {
         className={styles.popover}
       >
         <List className={styles.nav} component="nav">
-          <ListItem button selected>
+          <ListItem onClick={handleClose} button selected>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText>My Profile</ListItemText>
           </ListItem>
-          <ListItem button>
+          <ListItem onClick={handleClose} button>
             <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>
             <ListItemText>Group Chat</ListItemText>
           </ListItem>
           <Divider />
-          <ListItem button className="logout" onClick={handleLogout}>
+          <ListItem
+            button
+            className="logout"
+            onClick={() => {
+              handleLogout();
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
@@ -208,6 +234,7 @@ function mapState(state) {
   return {
     isLogin: state.auth.login,
     user: state.user,
+    loadingUser: state.loadings.user,
   };
 }
 function mapDispatch(dispatch) {

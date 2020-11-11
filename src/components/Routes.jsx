@@ -8,30 +8,13 @@ import Profile from "./profile";
 import ProfileEdit from "./profile-edit";
 
 // test
-import firebase from "../config/firebase/index";
+import firebase, { database } from "../config/firebase/index";
 import store from "../config/redux/store";
 // actions
 import setLoginAuth from "../config/redux/actions/setLoginAuth";
 import setUser from "../config/redux/actions/setUser";
 import setFirstMount from "../config/redux/actions/setFirstMount";
-
-let firstMount = store.getState().firstMount;
-const dispatch = store.dispatch;
-firebase.auth().onAuthStateChanged(function (user) {
-  // store.subscribe(() => {
-  //   firstMount = store.getState().firstMount;
-  // });
-  if (user) {
-    // fetch user
-    console.log("Fetch user!!");
-    console.log(user);
-    // dispatch(setUser(snapshot.val()));
-    // dispatch(setLoginAuth(true));
-  } else {
-    // dont fetch
-    console.log("Don't fetch user!!");
-  }
-});
+import setUserLoading from "../config/redux/actions/setUserLoading";
 
 function Routes({
   isLogin,
