@@ -22,7 +22,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   const { id: uid } = useParams();
   const [noUser, setNoUser] = useState(false);
   const [usedUser, setUsedUser] = useState({});
-  const [isEditable, setIsEditeable] = useState(false);
+  const isEditable = uid == user.uid;
   useEffect(() => {
     if (!user.uid) {
       // fetch user.
@@ -100,7 +100,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
                   {loadingUser ? (
                     <div className={styles.loadingBlock}></div>
                   ) : (
-                    isLogin && (
+                    isEditable && (
                       <Button
                         variant="outlined"
                         className={styles.edit}
