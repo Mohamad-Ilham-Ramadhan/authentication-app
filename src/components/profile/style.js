@@ -153,6 +153,10 @@ const useStyles = makeStyles((theme) => ({
   noUser: {
     marginTop: 40,
     marginBottom: 40,
+    fontSize: "2rem",
+    [theme.breakpoints.up("md")]: {
+      fontSize: "3.75rem",
+    },
   },
 }));
 
