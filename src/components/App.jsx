@@ -33,7 +33,7 @@ export default function App() {
       } else {
         // dont fetch
         console.log("Don't fetch user!!");
-        dispatch(setLoadingUser(false));
+        // dispatch(setLoadingUser(false)); // ni yg ini yang bikin bug
         dispatch(setLoadingRegister(false));
         dispatch(setLoadingLogin(false));
       }

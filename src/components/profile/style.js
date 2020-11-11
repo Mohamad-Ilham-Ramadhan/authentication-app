@@ -150,6 +150,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     animation: "$loadingBlock 1s infinite alternate",
   },
+  noUser: {
+    marginTop: 40,
+    marginBottom: 40,
+  },
 }));
 
 export default useStyles;
