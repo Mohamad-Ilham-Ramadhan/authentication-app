@@ -16,14 +16,14 @@ import firebase, { database } from "../../config/firebase";
 import useStyles from "./style";
 // action
 
-function Profile({ user, isLogin }) {
+function Profile({ user, isLogin, loadingUser }) {
   const styles = useStyles();
   const history = useHistory();
   let usedUser = {};
   // useEffect(() => {
   //   console.log("User =>", user);
   if (!user.uid) {
-    // firebase.auth
+    // fetch user.
     usedUser = {
       // photoUrl: "asdfasdf.jpg",
       displayName: "Ilham Dragunov",
@@ -53,31 +53,47 @@ function Profile({ user, isLogin }) {
         <div className={styles.table}>
           <Grid container className={styles.gridContainerHeading}>
             <Grid item xs={7} className={styles.gridHeading}>
-              <Typography className={styles.tableHeading} component="h2">
-                Profile
-              </Typography>
-              <Typography className={styles.tableSubheading}>
-                Some info may be visible to other people.
-              </Typography>
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                <>
+                  <Typography className={styles.tableHeading} component="h2">
+                    Profile
+                  </Typography>
+                  <Typography className={styles.tableSubheading}>
+                    Some info may be visible to other people.
+                  </Typography>
+                </>
+              )}
             </Grid>
             <Grid item xs={5} className={styles.gridEdit}>
-              {isLogin && (
-                <Button
-                  variant="outlined"
-                  className={styles.edit}
-                  onClick={handleClickEdit}
-                >
-                  Edit
-                </Button>
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                isLogin && (
+                  <Button
+                    variant="outlined"
+                    className={styles.edit}
+                    onClick={handleClickEdit}
+                  >
+                    Edit
+                  </Button>
+                )
               )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
-              Photo
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                "Photo"
+              )}
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {usedUser.photoUrl ? (
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : usedUser.photoUrl ? (
                 <img src={usedUser.photoUrl} alt="" />
               ) : (
                 <div className={styles.defaultPhoto}>
@@ -88,42 +104,88 @@ function Profile({ user, isLogin }) {
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
-              Name
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                "Name"
+              )}
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {usedUser.displayName ? usedUser.displayName : "-"}
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : usedUser.displayName ? (
+                usedUser.displayName
+              ) : (
+                "-"
+              )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
-              Bio
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                "Bio"
+              )}
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
-              <div>{usedUser.bio ? usedUser.bio : "-"}</div>
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                <div>{usedUser.bio ? usedUser.bio : "-"}</div>
+              )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
-              Phone
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                "Phone"
+              )}
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
-              <div>{usedUser.phoneNumber ? usedUser.phoneNumber : "-"}</div>
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                <div>{usedUser.phoneNumber ? usedUser.phoneNumber : "-"}</div>
+              )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
-              Email
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                "Email"
+              )}
             </Grid>
             <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
-              {usedUser.email ? usedUser.email : "-"}
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : usedUser.email ? (
+                usedUser.email
+              ) : (
+                "-"
+              )}
             </Grid>
           </Grid>
           <Grid container className={styles.gridContainer}>
             <Grid item xs={4} className={styles.gridKey}>
-              Password
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : (
+                "Password"
+              )}
             </Grid>
             <Grid item xs={8} className={styles.gridValue}>
-              {usedUser.providerId == "password" ? "**********" : "-"}
+              {loadingUser ? (
+                <div className={styles.loadingBlock}></div>
+              ) : usedUser.providerId == "password" ? (
+                "**********"
+              ) : (
+                "-"
+              )}
             </Grid>
           </Grid>
         </div>
@@ -137,6 +199,7 @@ function mapState(state) {
   return {
     isLogin: state.auth.login,
     user: state.user,
+    loadingUser: state.loadings.user,
   };
 }
 export default connect(mapState)(Profile);

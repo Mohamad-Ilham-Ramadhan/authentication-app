@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, lighten } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -134,6 +134,21 @@ const useStyles = makeStyles((theme) => ({
       height: "inherit",
       color: "white",
     },
+  },
+  "@keyframes loadingBlock": {
+    from: {
+      backgroundColor: lighten(theme.palette.neutral.lightGray, 0.9),
+    },
+    to: {
+      backgroundColor: lighten(theme.palette.neutral.lightGray, 0.6),
+    },
+  },
+  loadingBlock: {
+    backgroundColor: lighten(theme.palette.neutral.lightGray, 0.5),
+    height: 60,
+    width: "100%",
+    borderRadius: 8,
+    animation: "$loadingBlock 1s infinite alternate",
   },
 }));
 
