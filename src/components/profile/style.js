@@ -135,21 +135,7 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
-  "@keyframes loadingBlock": {
-    from: {
-      backgroundColor: lighten(theme.palette.neutral.lightGray, 0.9),
-    },
-    to: {
-      backgroundColor: lighten(theme.palette.neutral.lightGray, 0.6),
-    },
-  },
-  loadingBlock: {
-    backgroundColor: lighten(theme.palette.neutral.lightGray, 0.5),
-    height: 60,
-    width: "100%",
-    borderRadius: 8,
-    animation: "$loadingBlock 1s infinite alternate",
-  },
+  loadingBlock: {},
   noUser: {
     marginTop: 40,
     marginBottom: 40,

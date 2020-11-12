@@ -1,9 +1,15 @@
-import firebase from "../../firebase";
-
-export default function updateUser({ password }) {
+import firebase, { database } from "../../firebase";
+const type = "UPDATE_USER";
+export default function updateUser({
+  password,
+  email,
+  displayName,
+  bio,
+  phoneNumber,
+}) {
   return function (dispatch, getState) {
-    const userDatabase = firebase.auth().currentUser;
-    // userDatabase
+    const user = firebase.auth().currentUser;
+    // user
     //   .updateEmail(email)
     //   .then((res) => {
     //     console.log("Update berhasil");
@@ -12,15 +18,29 @@ export default function updateUser({ password }) {
     //   .catch((error) => {
     //     console.log("Update Error", error);
     //   });
-    userDatabase
-      .updatePassword(password)
+    // user.updateProfile()
+    user
+      .updateEmail(email)
       .then(function (response) {
-        // Update successful.
-        console.log("Update berhasil!");
+        console.log("Update email berhasil!");
+        database.ref(`users/${user.uid}`).update({ email });
+        dispatch({ type, payload: { email } });
       })
       .catch(function (error) {
-        // An error happened.
-        console.log("Update gagal!");
+        console.log("Update email gagal!");
       });
+    if (password.length >= 0) {
+      //
+      user
+        .updatePassword(password)
+        .then(function (response) {
+          console.log("Update password berhasil!");
+          database.ref(`users/${user.uid}`).update({ password: true });
+          dispatch({ type, payload: { password: true } });
+        })
+        .catch(function (error) {
+          console.log("Update password gagal!");
+        });
+    }
   };
 }

@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Header from "../Header";
 import Footer from "../Footer";
+import LoadingBlock from "../LoadingBlock";
 import profileImg from "../../assets/images/profile.jpg";
 import profileImg2 from "../../assets/images/profile2.jpeg";
 import PersonIcon from "@material-ui/icons/Person";
@@ -87,7 +88,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               <Grid container className={styles.gridContainerHeading}>
                 <Grid item xs={7} className={styles.gridHeading}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : (
                     <>
                       <Typography
@@ -104,7 +105,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
                 </Grid>
                 <Grid item xs={5} className={styles.gridEdit}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : (
                     isEditable && (
                       <Button
@@ -120,15 +121,11 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               </Grid>
               <Grid container className={styles.gridContainer}>
                 <Grid item xs={4} className={styles.gridKey}>
-                  {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
-                  ) : (
-                    "Photo"
-                  )}
+                  {loadingUser ? <LoadingBlock /> : "Photo"}
                 </Grid>
                 <Grid item xs={8} className={styles.gridValue}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : usedUser.photoUrl ? (
                     <img src={usedUser.photoUrl} alt="" />
                   ) : (
@@ -140,15 +137,11 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               </Grid>
               <Grid container className={styles.gridContainer}>
                 <Grid item xs={4} className={styles.gridKey}>
-                  {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
-                  ) : (
-                    "Name"
-                  )}
+                  {loadingUser ? <LoadingBlock /> : "Name"}
                 </Grid>
                 <Grid item xs={8} className={styles.gridValue}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : usedUser.displayName ? (
                     usedUser.displayName
                   ) : (
@@ -158,15 +151,11 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               </Grid>
               <Grid container className={styles.gridContainer}>
                 <Grid item xs={4} className={styles.gridKey}>
-                  {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
-                  ) : (
-                    "Bio"
-                  )}
+                  {loadingUser ? <LoadingBlock /> : "Bio"}
                 </Grid>
                 <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : (
                     <div>{usedUser.bio ? usedUser.bio : "-"}</div>
                   )}
@@ -174,15 +163,11 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               </Grid>
               <Grid container className={styles.gridContainer}>
                 <Grid item xs={4} className={styles.gridKey}>
-                  {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
-                  ) : (
-                    "Phone"
-                  )}
+                  {loadingUser ? <LoadingBlock /> : "Phone"}
                 </Grid>
                 <Grid item xs={8} className={clsx(styles.gridValue, "bio")}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : (
                     <div>
                       {usedUser.phoneNumber ? usedUser.phoneNumber : "-"}
@@ -192,15 +177,11 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               </Grid>
               <Grid container className={styles.gridContainer}>
                 <Grid item xs={4} className={styles.gridKey}>
-                  {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
-                  ) : (
-                    "Email"
-                  )}
+                  {loadingUser ? <LoadingBlock /> : "Email"}
                 </Grid>
                 <Grid item xs={8} className={clsx(styles.gridValue, "email")}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : usedUser.email ? (
                     usedUser.email
                   ) : (
@@ -210,15 +191,11 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
               </Grid>
               <Grid container className={styles.gridContainer}>
                 <Grid item xs={4} className={styles.gridKey}>
-                  {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
-                  ) : (
-                    "Password"
-                  )}
+                  {loadingUser ? <LoadingBlock /> : "Password"}
                 </Grid>
                 <Grid item xs={8} className={styles.gridValue}>
                   {loadingUser ? (
-                    <div className={styles.loadingBlock}></div>
+                    <LoadingBlock />
                   ) : usedUser.password ? (
                     "**********"
                   ) : (

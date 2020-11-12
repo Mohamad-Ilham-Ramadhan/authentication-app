@@ -120,6 +120,10 @@ const useStyles = makeStyles((theme) => ({
   done: {
     borderRadius: 8,
   },
+  loadingBlock: {
+    height: 150,
+    marginBottom: 40,
+  },
 }));
 
 export default useStyles;

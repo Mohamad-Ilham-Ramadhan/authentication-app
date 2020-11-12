@@ -9,6 +9,7 @@ import setLoadingLogin from "../config/redux/actions/setLoadingLogin";
 import setLoadingRegister from "../config/redux/actions/setLoadingRegister";
 import setUser from "../config/redux/actions/setUser";
 import setAuthLogin from "../config/redux/actions/setAuthLogin";
+import setAuthenticating from "../config/redux/actions/setAuthenticating";
 export default function App() {
   useEffect(() => {
     console.log("APP DID MOUNT!");
@@ -17,24 +18,20 @@ export default function App() {
     firebase.auth().onAuthStateChanged(function (user) {
       console.log("ON AUTH STATE CHANGE CALLED!");
       if (user) {
-        // fetch user
-        dispatch(setLoadingUser(true));
-        console.log("Fetch user!!");
-        console.log(user);
         database
           .ref(`users/${user.uid}`)
           .once("value")
           .then((snapshot) => {
             dispatch(setUser(snapshot.val()));
+            dispatch(setAuthenticating(false));
             dispatch(setAuthLogin(true));
-            dispatch(setLoadingUser(false));
             dispatch(setLoadingRegister(false));
             dispatch(setLoadingLogin(false));
           });
       } else {
         // dont fetch
         console.log("Don't fetch user!!");
-        // dispatch(setLoadingUser(false)); // ni yg ini yang bikin bug
+        dispatch(setAuthenticating(false));
         dispatch(setLoadingRegister(false));
         dispatch(setLoadingLogin(false));
       }
