@@ -36,16 +36,8 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
           if (snapshot.val() == null) {
             throw new Error("There is no user found!");
           }
-
           const result = snapshot.val();
-          setUsedUser({
-            photoUrl: result.photoUrl || "",
-            displayName: result.displayName,
-            bio: result.bio,
-            phoneNumber: result.phoneNumber,
-            email: result.email,
-            providerId: result.providerId,
-          });
+          setUsedUser(result);
           setLoadingUser(false);
         })
         .catch((err) => {
@@ -74,6 +66,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   function handleClickEdit() {
     history.push(`/profile/${user.uid}/edit`);
   }
+  console.log("password =>", usedUser.password);
   return (
     <section className={styles.root}>
       <Header className={styles.header} />
@@ -228,7 +221,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
                 <Grid item xs={8} className={styles.gridValue}>
                   {loadingUser ? (
                     <div className={styles.loadingBlock}></div>
-                  ) : usedUser.providerId == "password" ? (
+                  ) : usedUser.password ? (
                     "**********"
                   ) : (
                     "-"
