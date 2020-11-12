@@ -49,16 +49,16 @@ export default function signInWithProvider(provider, method) {
         let user = {
           uid: response.user.uid,
           email: response.user.email,
-          displayName: response.user.displayName,
-          photoUrl: response.user.photoURL,
-          phoneNumber: response.user.phoneNumber,
+          displayName: response.user.displayName || "",
+          photoUrl: response.user.photoURL || "",
+          phoneNumber: response.user.phoneNumber || "",
           bio: "",
           password: false,
           providerId: response.additionalUserInfo.providerId,
         };
         const isNewUser = response.additionalUserInfo.isNewUser;
         if (isNewUser) {
-          // fetch bio jika login
+          // simpan user di database
           database
             .ref(`users/${user.uid}`)
             .set(user)
@@ -67,15 +67,27 @@ export default function signInWithProvider(provider, method) {
               dispatch(setAuthLogin(true));
             });
         } else {
-          // jika terjadi overwrite maka set password = false
           database
             .ref("/users/" + user.uid)
             .once("value")
             .then(function (snapshot) {
-              user.bio = snapshot.val().bio || "";
-              user.password = snapshot.val().password || false;
-              dispatch(setUser(user));
-              dispatch(setAuthLogin(true));
+              const result = snapshot.val();
+              // jika terjadi overwrite oleh Google maka set password = false
+              if (
+                result.providerId != "google.com" &&
+                user.providerId == "google.com"
+              ) {
+                result.password = false;
+                dispatch(setUser(result));
+                dispatch(setAuthLogin(true));
+                // password false di database
+                database
+                  .ref(`users/${user.uid}`)
+                  .update({ password: false, providerId: user.providerId });
+              } else {
+                dispatch(setUser(result));
+                dispatch(setAuthLogin(true));
+              }
             });
         }
       })

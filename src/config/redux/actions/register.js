@@ -22,6 +22,7 @@ export default function register(
           phoneNumber: response.user.phoneNumber || "",
           password: true,
           bio: "",
+          providerId: response.additionalUserInfo.providerId,
         };
         // save user data in firebase realtime database
         database

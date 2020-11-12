@@ -54,7 +54,6 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
           .once("value")
           .then((snapshot) => {
             const result = snapshot.val();
-            console.log("result =>", result);
             setUsedUser(result);
             setLoadingUser(false);
           });
@@ -66,7 +65,6 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   function handleClickEdit() {
     history.push(`/profile/${user.uid}/edit`);
   }
-  console.log("password =>", usedUser.password);
   return (
     <section className={styles.root}>
       <Header className={styles.header} />
