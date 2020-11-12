@@ -47,8 +47,9 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
         });
       // kalo ada signed user
     } else {
-      // kalo signed user beda dengan uid(params)
+      // kalo signed user beda dengan uid(params) fetch dari database
       if (user.uid !== uid) {
+        console.log("ambil dari firebase database");
         setLoadingUser(true);
         database
           .ref(`users/${uid}`)
@@ -59,6 +60,8 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
             setLoadingUser(false);
           });
       } else {
+        // kalo signed user sama dengan uid(params) ambil dari redux
+        console.log("ambil dari redux");
         setUsedUser(user);
       }
     }

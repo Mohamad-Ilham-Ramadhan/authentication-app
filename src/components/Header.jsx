@@ -155,7 +155,9 @@ function Header({ className, isLogin, logout, user, loadingUser }) {
   }
   return (
     <header className={clsx(styles.root, className)}>
-      <img src={logo} alt="" />
+      <Link to="/">
+        <img src={logo} alt="" />
+      </Link>
       {isLogin ? (
         <div className={styles.menu} onClick={handleClick} role="button">
           <div className="profile-img">
