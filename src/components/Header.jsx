@@ -150,6 +150,9 @@ function Header({ className, isLogin, logout, user, loadingUser }) {
   function handleClickLogin() {
     history.push(`/login`);
   }
+  function handleClickMyProfile() {
+    history.push(`/profile/${user.uid}`);
+  }
   return (
     <header className={clsx(styles.root, className)}>
       <img src={logo} alt="" />
@@ -199,13 +202,25 @@ function Header({ className, isLogin, logout, user, loadingUser }) {
         className={styles.popover}
       >
         <List className={styles.nav} component="nav">
-          <ListItem onClick={handleClose} button selected>
+          <ListItem
+            onClick={() => {
+              handleClickMyProfile();
+              handleClose();
+            }}
+            button
+            selected
+          >
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText>My Profile</ListItemText>
           </ListItem>
-          <ListItem onClick={handleClose} button>
+          <ListItem
+            onClick={() => {
+              handleClose();
+            }}
+            button
+          >
             <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>

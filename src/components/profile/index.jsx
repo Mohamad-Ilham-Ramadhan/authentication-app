@@ -24,6 +24,8 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   const [usedUser, setUsedUser] = useState({});
   const isEditable = uid == user.uid;
   useEffect(() => {
+    console.log("PROFILE DID MOUNT");
+    // kalo gak ada signed in user
     if (!user.uid) {
       // fetch user.
       setLoadingUser(true);
@@ -50,15 +52,28 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
           setNoUser(true);
           setLoadingUser(false);
         });
+      // kalo ada signed user
     } else {
-      setUsedUser(user);
+      // kalo signed user beda dengan uid(params)
+      if (user.uid !== uid) {
+        setLoadingUser(true);
+        database
+          .ref(`users/${uid}`)
+          .once("value")
+          .then((snapshot) => {
+            const result = snapshot.val();
+            console.log("result =>", result);
+            setUsedUser(result);
+            setLoadingUser(false);
+          });
+      } else {
+        setUsedUser(user);
+      }
     }
-  }, []);
+  }, [uid]);
   function handleClickEdit() {
     history.push(`/profile/${user.uid}/edit`);
   }
-  console.log("usedUser =>", usedUser);
-  console.log("uid =>", uid);
   return (
     <section className={styles.root}>
       <Header className={styles.header} />

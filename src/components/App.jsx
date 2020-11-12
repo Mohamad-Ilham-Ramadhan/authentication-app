@@ -13,6 +13,7 @@ export default function App() {
   useEffect(() => {
     console.log("APP DID MOUNT!");
     const dispatch = store.dispatch;
+    // hanya digunakan untuk persistance login
     firebase.auth().onAuthStateChanged(function (user) {
       console.log("ON AUTH STATE CHANGE CALLED!");
       if (user) {
