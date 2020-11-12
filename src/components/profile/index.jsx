@@ -22,7 +22,7 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   const { id: uid } = useParams();
   const [noUser, setNoUser] = useState(false);
   const [usedUser, setUsedUser] = useState({});
-  const isEditable = uid == user.uid;
+  const isEditable = uid == user.uid && isLogin;
   useEffect(() => {
     console.log("PROFILE DID MOUNT");
     // kalo gak ada signed in user
