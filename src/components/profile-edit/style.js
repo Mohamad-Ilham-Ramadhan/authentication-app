@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 24,
   },
   input: {
-    marginBottom: 24,
     maxWidth: 420,
     [theme.breakpoints.up("md")]: {},
     "& .MuiInputBase-root": {
@@ -123,6 +122,12 @@ const useStyles = makeStyles((theme) => ({
   loadingBlock: {
     height: 150,
     marginBottom: 40,
+  },
+  errMsg: {
+    color: theme.palette.secondary.main,
+    fontSize: 10,
+    fontWeight: 700,
+    marginBottom: 24,
   },
 }));
 

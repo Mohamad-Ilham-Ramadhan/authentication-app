@@ -1,4 +1,6 @@
 import firebase, { database } from "../../firebase";
+import setErrMsgProfileEdit from "./setErrMsgProfileEdit";
+
 const type = "UPDATE_USER";
 export default function updateUser({
   password,
@@ -9,37 +11,69 @@ export default function updateUser({
 }) {
   return function (dispatch, getState) {
     const user = firebase.auth().currentUser;
-    // user
-    //   .updateEmail(email)
-    //   .then((res) => {
-    //     console.log("Update berhasil");
-    //     dispatch({ type: "UPDATE_USER", payload: { email: email } });
-    //   })
-    //   .catch((error) => {
-    //     console.log("Update Error", error);
-    //   });
-    // user.updateProfile()
+    const newData = { displayName, bio, phoneNumber };
+    user
+      .updateProfile(newData)
+      .then((res) => {
+        database
+          .ref(`users/${user.uid}`)
+          .update({ displayName, bio, phoneNumber })
+          .then((res) => {
+            dispatch({ type, payload: newData });
+          })
+          .catch((err) => {
+            dispatch(
+              setErrMsgProfileEdit({
+                displayName: msg,
+                bio: msg,
+                phoneNumber: msg,
+              })
+            );
+          });
+      })
+      .catch((err) => {
+        const msg = err.message;
+        dispatch(
+          setErrMsgProfileEdit({ displayName: msg, bio: msg, phoneNumber: msg })
+        );
+      });
     user
       .updateEmail(email)
-      .then(function (response) {
-        console.log("Update email berhasil!");
-        database.ref(`users/${user.uid}`).update({ email });
-        dispatch({ type, payload: { email } });
+      .then((res) => {
+        database
+          .ref(`users/${user.uid}`)
+          .update({ email })
+          .then((res) => {
+            dispatch({ type, payload: { email } });
+          })
+          .catch((err) => {
+            const msg = err.message;
+            dispatch(setErrMsgProfileEdit({ email: msg }));
+          });
       })
-      .catch(function (error) {
-        console.log("Update email gagal!");
+      .catch((err) => {
+        const msg = err.message;
+        dispatch(setErrMsgProfileEdit({ email: msg }));
       });
     if (password.length >= 0) {
       //
       user
         .updatePassword(password)
-        .then(function (response) {
-          console.log("Update password berhasil!");
-          database.ref(`users/${user.uid}`).update({ password: true });
-          dispatch({ type, payload: { password: true } });
+        .then((res) => {
+          database
+            .ref(`users/${user.uid}`)
+            .update({ password: true })
+            .then((res) => {
+              dispatch({ type, payload: { password: true } });
+            })
+            .catch((err) => {
+              const msg = err.message;
+              dispatch(setErrMsgProfileEdit({ password: msg }));
+            });
         })
-        .catch(function (error) {
-          console.log("Update password gagal!");
+        .catch((err) => {
+          const msg = err.message;
+          dispatch(setErrMsgProfileEdit({ password: msg }));
         });
     }
   };

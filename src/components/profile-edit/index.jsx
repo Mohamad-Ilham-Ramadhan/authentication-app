@@ -26,7 +26,8 @@ import useStyles from "./style";
 // actions
 import updateUser from "../../config/redux/actions/updateUser";
 
-function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
+function ProfileEdit({ user, updateUser, isLogin, isAuthenticating, errMsgs }) {
+  console.log("Error messages:", errMsgs);
   const styles = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -85,10 +86,8 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
     setFilename(values.url);
   }
   function handleSubmit(values, e) {
-    console.log("values:", values);
-    console.log("event:", e);
+    updateUser(values);
     e.preventDefault();
-    // updateUser(values);
   }
   return (
     <section>
@@ -189,6 +188,7 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
                   placeholder="Enter your name..."
                   className={styles.input}
                 />
+                <p className={styles.errMsg}>{errMsgs.displayName}</p>
               </div>
               <div>
                 <Input
@@ -201,6 +201,7 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
                   multiline
                   rows={3}
                 />
+                <p className={styles.errMsg}>{errMsgs.bio}</p>
               </div>
               <div>
                 <Input
@@ -212,6 +213,7 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
                   className={styles.input}
                   type="number"
                 />
+                <p className={styles.errMsg}>{errMsgs.phoneNumber}</p>
               </div>
               <div>
                 <Input
@@ -223,6 +225,7 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
                   className={styles.input}
                   type="email"
                 />
+                <p className={styles.errMsg}>{errMsgs.email}</p>
               </div>
               <div>
                 <Input
@@ -234,6 +237,7 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating }) {
                   className={styles.input}
                   type="password"
                 />
+                <p className={styles.errMsg}>{errMsgs.password}</p>
               </div>
               <div>
                 <Button
@@ -259,6 +263,7 @@ function mapState(state) {
     user: state.user,
     isLogin: state.auth.login,
     isAuthenticating: state.auth.authenticating,
+    errMsgs: state.messages.profileEdit,
   };
 }
 function mapDispatch(dispatch) {
