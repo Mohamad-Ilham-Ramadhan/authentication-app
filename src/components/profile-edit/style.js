@@ -129,6 +129,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     marginBottom: 24,
   },
+  loading: {
+    color: "white",
+  },
 }));
 
 export default useStyles;

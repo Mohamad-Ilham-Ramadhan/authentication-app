@@ -21,13 +21,24 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import LinkIcon from "@material-ui/icons/Link";
 import PhotoIcon from "@material-ui/icons/Photo";
+import CircularProgress from "@material-ui/core/CircularProgress";
 // style
 import useStyles from "./style";
 // actions
 import updateUser from "../../config/redux/actions/updateUser";
+import setLoadingProfileEdit from "../../config/redux/actions/setLoadingProfileEdit";
 
-function ProfileEdit({ user, updateUser, isLogin, isAuthenticating, errMsgs }) {
+function ProfileEdit({
+  user,
+  updateUser,
+  isLogin,
+  isAuthenticating,
+  errMsgs,
+  loading,
+  setLoadingProfileEdit,
+}) {
   console.log("Error messages:", errMsgs);
+  console.log("Loading", loading);
   const styles = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -86,6 +97,7 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating, errMsgs }) {
     setFilename(values.url);
   }
   function handleSubmit(values, e) {
+    setLoadingProfileEdit(true);
     updateUser(values);
     e.preventDefault();
   }
@@ -247,7 +259,11 @@ function ProfileEdit({ user, updateUser, isLogin, isAuthenticating, errMsgs }) {
                   disableElevation
                   type="submit"
                 >
-                  Save
+                  {loading ? (
+                    <CircularProgress className={styles.loading} size={16} />
+                  ) : (
+                    "Save"
+                  )}
                 </Button>
               </div>
             </>
@@ -264,11 +280,14 @@ function mapState(state) {
     isLogin: state.auth.login,
     isAuthenticating: state.auth.authenticating,
     errMsgs: state.messages.profileEdit,
+    loading: state.loadings.profileEdit,
   };
 }
 function mapDispatch(dispatch) {
   return {
     updateUser: (data) => dispatch(updateUser(data)),
+    setLoadingProfileEdit: (payload) =>
+      dispatch(setLoadingProfileEdit(payload)),
   };
 }
 export default connect(mapState, mapDispatch)(ProfileEdit);
