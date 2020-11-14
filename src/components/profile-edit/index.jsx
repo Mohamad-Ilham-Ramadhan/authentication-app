@@ -28,6 +28,7 @@ import useStyles from "./style";
 // actions
 import updateUser from "../../config/redux/actions/updateUser";
 import setLoadingProfileEdit from "../../config/redux/actions/setLoadingProfileEdit";
+import setErrMsgProfileEdit from "../../config/redux/actions/setErrMsgProfileEdit";
 
 function ProfileEdit({
   user,
@@ -37,6 +38,7 @@ function ProfileEdit({
   errMsgs,
   loading,
   setLoadingProfileEdit,
+  setErrMsgProfileEdit,
 }) {
   console.log("Error messages:", errMsgs);
   console.log("Loading", loading);
@@ -65,6 +67,18 @@ function ProfileEdit({
       email: user.email,
     });
   }, [user]);
+  // clean the messages when component unmount
+  useEffect(() => {
+    return () => {
+      setErrMsgProfileEdit({
+        displayName: "",
+        bio: "",
+        phoneNumber: "",
+        email: "",
+        password: "",
+      });
+    };
+  }, []);
   function handleChange(e) {
     setValues((prevValues) => ({
       ...prevValues,
@@ -295,6 +309,7 @@ function mapDispatch(dispatch) {
     updateUser: (data) => dispatch(updateUser(data)),
     setLoadingProfileEdit: (payload) =>
       dispatch(setLoadingProfileEdit(payload)),
+    setErrMsgProfileEdit: (payload) => dispatch(setErrMsgProfileEdit(payload)),
   };
 }
 export default connect(mapState, mapDispatch)(ProfileEdit);

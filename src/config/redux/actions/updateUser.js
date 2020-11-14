@@ -101,7 +101,6 @@ export default function updateUser({
     Promise.allSettled(promises).then((result) => {
       const isOneFailed = result.some((item) => item.status == "rejected");
       if (isOneFailed) {
-        console.log("one promise failed");
         dispatch(
           setErrMsgProfileEdit({
             submit: "Saved (but some data failed)",
@@ -115,7 +114,6 @@ export default function updateUser({
         );
       }
       dispatch(setLoadingProfileEdit(false));
-      console.log("The result of userUpdate =>", result);
     });
   };
 }
