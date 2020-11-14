@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
   save: {
     borderRadius: 8,
     width: 82,
+    marginRight: 8,
   },
   footer: {
     paddingRight: 0,
@@ -129,8 +130,21 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     marginBottom: 24,
   },
+  wrapperSubmit: {
+    display: "flex",
+    alignItems: "center",
+  },
   loading: {
     color: "white",
+  },
+  submitMsg: {
+    display: "inline-flex",
+    color: theme.palette.neutral.lightGray,
+    fontWeight: 500,
+    "& .MuiSvgIcon-root": {
+      marginRight: 4,
+      color: theme.palette.success.main,
+    },
   },
 }));
 

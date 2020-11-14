@@ -7,6 +7,7 @@ const initialState = {
     phoneNumber: "",
     email: "",
     password: "",
+    submit: "",
   },
 };
 export default function messages(state = initialState, action) {

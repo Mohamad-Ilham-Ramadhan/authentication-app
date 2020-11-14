@@ -99,6 +99,21 @@ export default function updateUser({
     }
     const promises = [promiseProfile, promiseEmail, promisePassword];
     Promise.allSettled(promises).then((result) => {
+      const isOneFailed = result.some((item) => item.status == "rejected");
+      if (isOneFailed) {
+        console.log("one promise failed");
+        dispatch(
+          setErrMsgProfileEdit({
+            submit: "Saved (but some data failed)",
+          })
+        );
+      } else {
+        dispatch(
+          setErrMsgProfileEdit({
+            submit: "Saved",
+          })
+        );
+      }
       dispatch(setLoadingProfileEdit(false));
       console.log("The result of userUpdate =>", result);
     });

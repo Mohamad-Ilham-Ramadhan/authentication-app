@@ -22,6 +22,7 @@ import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import LinkIcon from "@material-ui/icons/Link";
 import PhotoIcon from "@material-ui/icons/Photo";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 // style
 import useStyles from "./style";
 // actions
@@ -251,7 +252,7 @@ function ProfileEdit({
                 />
                 <p className={styles.errMsg}>{errMsgs.password}</p>
               </div>
-              <div>
+              <div className={styles.wrapperSubmit}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -260,11 +261,17 @@ function ProfileEdit({
                   type="submit"
                 >
                   {loading ? (
-                    <CircularProgress className={styles.loading} size={16} />
+                    <CircularProgress className={styles.loading} size={24} />
                   ) : (
                     "Save"
                   )}
                 </Button>
+                {errMsgs.submit.length > 0 && (
+                  <span className={styles.submitMsg}>
+                    <CheckCircleIcon />
+                    {errMsgs.submit}
+                  </span>
+                )}
               </div>
             </>
           )}
