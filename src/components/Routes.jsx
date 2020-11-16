@@ -16,10 +16,10 @@ export default function Routes({}) {
       <Route path="/register">
         <Register />
       </Route>
-      <Route path="/profile/:id/edit">
+      <Route path="/profile/:uid/edit">
         <ProfileEdit />
       </Route>
-      <Route path="/profile/:id">
+      <Route path="/profile/:uid">
         <Profile />
       </Route>
       <Route path="/" exact>

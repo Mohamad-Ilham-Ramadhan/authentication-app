@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import clsx from "clsx";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Header from "../Header";
 import Footer from "../Footer";
 import LoadingBlock from "../LoadingBlock";
@@ -46,10 +46,12 @@ function ProfileEdit({
   console.log("Loading", loading);
   const styles = useStyles();
   const history = useHistory();
+  const { uid } = useParams();
   const [open, setOpen] = useState(false);
   const [openUrl, setOpenUrl] = useState(false);
   const fileRef = useRef(null);
   const [filename, setFilename] = useState(null);
+  const [notFound, setNotFound] = useState(false);
   // input values:
   const [values, setValues] = useState({
     url: "",
@@ -85,6 +87,13 @@ function ProfileEdit({
       });
     };
   }, []);
+  useEffect(() => {
+    if (user.uid !== uid) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
+  }, [user]);
   function handleChange(e) {
     setValues((prevValues) => ({
       ...prevValues,
@@ -166,6 +175,10 @@ function ProfileEdit({
               <LoadingBlock className={styles.loadingBlock} />
               <LoadingBlock className={styles.loadingBlock} />
             </>
+          ) : notFound ? (
+            <Typography variant="h2" align="center">
+              Not found.
+            </Typography>
           ) : (
             <>
               <Typography component="h1" className={styles.heading}>

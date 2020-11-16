@@ -20,7 +20,7 @@ import setLoadingUser from "../../config/redux/actions/setLoadingUser";
 function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
   const styles = useStyles();
   const history = useHistory();
-  const { id: uid } = useParams();
+  const { uid } = useParams();
   const [noUser, setNoUser] = useState(false);
   const [usedUser, setUsedUser] = useState({});
   const isEditable = uid == user.uid && isLogin;
