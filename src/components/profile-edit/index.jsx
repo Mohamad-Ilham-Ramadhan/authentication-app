@@ -29,6 +29,7 @@ import useStyles from "./style";
 import updateUser from "../../config/redux/actions/updateUser";
 import setLoadingProfileEdit from "../../config/redux/actions/setLoadingProfileEdit";
 import setErrMsgProfileEdit from "../../config/redux/actions/setErrMsgProfileEdit";
+import setLoadingUser from "../../config/redux/actions/setLoadingUser";
 
 function ProfileEdit({
   user,
@@ -39,6 +40,7 @@ function ProfileEdit({
   loading,
   setLoadingProfileEdit,
   setErrMsgProfileEdit,
+  setLoadingUser,
 }) {
   console.log("Error messages:", errMsgs);
   console.log("Loading", loading);
@@ -69,6 +71,10 @@ function ProfileEdit({
   }, [user]);
   // clean the messages when component unmount
   useEffect(() => {
+    // jika gak ada user signed in
+    if (!user.uid) {
+      setLoadingUser(false);
+    }
     return () => {
       setErrMsgProfileEdit({
         displayName: "",
@@ -310,6 +316,7 @@ function mapDispatch(dispatch) {
     setLoadingProfileEdit: (payload) =>
       dispatch(setLoadingProfileEdit(payload)),
     setErrMsgProfileEdit: (payload) => dispatch(setErrMsgProfileEdit(payload)),
+    setLoadingUser: (payload) => dispatch(setLoadingUser(payload)),
   };
 }
 export default connect(mapState, mapDispatch)(ProfileEdit);
