@@ -84,6 +84,7 @@ function ProfileEdit({
         phoneNumber: "",
         email: "",
         password: "",
+        submit: "",
       });
     };
   }, []);

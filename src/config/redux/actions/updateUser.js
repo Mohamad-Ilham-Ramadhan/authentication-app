@@ -48,29 +48,6 @@ export default function updateUser({
           rej("profile failed");
         });
     });
-    const promiseEmail = new Promise((res, rej) => {
-      user
-        .updateEmail(email)
-        .then((response) => {
-          database
-            .ref(`users/${user.uid}`)
-            .update({ email })
-            .then((response) => {
-              dispatch({ type, payload: { email } });
-              res("email success");
-            })
-            .catch((err) => {
-              const msg = err.message;
-              dispatch(setErrMsgProfileEdit({ email: msg }));
-              rej("email failed");
-            });
-        })
-        .catch((err) => {
-          const msg = err.message;
-          dispatch(setErrMsgProfileEdit({ email: msg }));
-          rej("email failed");
-        });
-    });
     let promisePassword;
     if (password.length >= 0) {
       promisePassword = new Promise((res, rej) => {
@@ -97,6 +74,30 @@ export default function updateUser({
           });
       });
     }
+    const promiseEmail = new Promise((res, rej) => {
+      user
+        .updateEmail(email)
+        .then((response) => {
+          database
+            .ref(`users/${user.uid}`)
+            .update({ email })
+            .then((response) => {
+              dispatch({ type, payload: { email } });
+              res("email success");
+            })
+            .catch((err) => {
+              const msg = err.message;
+              dispatch(setErrMsgProfileEdit({ email: msg }));
+              rej("email failed");
+            });
+        })
+        .catch((err) => {
+          const msg = err.message;
+          dispatch(setErrMsgProfileEdit({ email: msg }));
+          rej("email failed");
+        });
+    });
+
     const promises = [promiseProfile, promiseEmail, promisePassword];
     Promise.allSettled(promises).then((result) => {
       const isOneFailed = result.some((item) => item.status == "rejected");
