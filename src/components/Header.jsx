@@ -145,7 +145,9 @@ function Header({ className, isLogin, logout, user, loadingUser }) {
     setAnchorEl(null);
   };
   function handleLogout() {
-    logout();
+    logout().then(() => {
+      history.push(`/`);
+    });
   }
   function handleClickLogin() {
     history.push(`/login`);

@@ -3,7 +3,7 @@ import setAuthLogin from "./setAuthLogin";
 
 export default function logout() {
   return function (dispatch) {
-    firebase
+    return firebase
       .auth()
       .signOut()
       .then(function () {
