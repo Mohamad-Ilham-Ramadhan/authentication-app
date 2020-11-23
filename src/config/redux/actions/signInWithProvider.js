@@ -40,6 +40,7 @@ export default function signInWithProvider(provider, method) {
       .auth()
       .signInWithPopup(usedProvider)
       .then(function (response) {
+        console.log("signWithPopup response =>", response);
         console.log("providerId =>", response.additionalUserInfo.providerId);
         if (method == "register") {
           dispatch(setLoadingRegister(false));
@@ -50,7 +51,7 @@ export default function signInWithProvider(provider, method) {
           uid: response.user.uid,
           email: response.user.email,
           displayName: response.user.displayName || "",
-          photoUrl: response.user.photoURL || "",
+          photoURL: response.user.photoURL || "",
           phoneNumber: response.user.phoneNumber || "",
           bio: "",
           password: false,
@@ -79,7 +80,7 @@ export default function signInWithProvider(provider, method) {
               ) {
                 result.password = false;
                 dispatch(setUser(result));
-                dispatch(setAuthLogin(true));
+                    dispatch(setAuthLogin(true));  
                 // password false di database
                 database
                   .ref(`users/${user.uid}`)

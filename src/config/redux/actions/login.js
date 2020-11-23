@@ -13,12 +13,12 @@ export default function login(
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(function (response) {
-        console.log(response);
+        console.log("sign in success =>", response);
         let user = {
           uid: response.user.uid,
           email: response.user.email,
           displayName: response.user.displayName,
-          photoUrl: response.user.photoURL,
+          photoURL: response.user.photoURL,
           phoneNumber: response.user.phoneNumber,
         };
         database

@@ -10,6 +10,8 @@ import setLoadingRegister from "../config/redux/actions/setLoadingRegister";
 import setUser from "../config/redux/actions/setUser";
 import setAuthLogin from "../config/redux/actions/setAuthLogin";
 import setAuthenticating from "../config/redux/actions/setAuthenticating";
+
+
 export default function App() {
   useEffect(() => {
     console.log("APP DID MOUNT!");

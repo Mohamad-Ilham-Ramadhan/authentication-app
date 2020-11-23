@@ -1,5 +1,5 @@
 export default function auth(
-  state = { login: false, authenticating: true },
+  state = { login: false, authenticating: true, credential: null },
   action
 ) {
   switch (action.type) {

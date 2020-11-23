@@ -162,8 +162,8 @@ function Header({ className, isLogin, logout, user, loadingUser }) {
       {isLogin ? (
         <div className={styles.menu} onClick={handleClick} role="button">
           <div className="profile-img">
-            {user.photoUrl ? (
-              <img src={user.photoUrl} alt="" />
+            {user.photoURL ? (
+              <img src={user.photoURL} alt="" />
             ) : (
               <PersonIcon />
             )}

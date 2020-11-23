@@ -127,8 +127,8 @@ function Profile({ user, isLogin, loadingUser, setLoadingUser }) {
                 <Grid item xs={8} className={styles.gridValue}>
                   {loadingUser ? (
                     <LoadingBlock />
-                  ) : usedUser.photoUrl ? (
-                    <img src={usedUser.photoUrl} alt="" />
+                  ) : usedUser.photoURL ? (
+                    <img src={usedUser.photoURL} alt="" />
                   ) : (
                     <div className={styles.defaultPhoto}>
                       <PersonIcon />

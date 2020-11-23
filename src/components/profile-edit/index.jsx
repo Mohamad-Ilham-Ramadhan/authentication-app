@@ -30,6 +30,7 @@ import updateUser from "../../config/redux/actions/updateUser";
 import setLoadingProfileEdit from "../../config/redux/actions/setLoadingProfileEdit";
 import setErrMsgProfileEdit from "../../config/redux/actions/setErrMsgProfileEdit";
 import setLoadingUser from "../../config/redux/actions/setLoadingUser";
+import { storage } from "../../config/firebase";
 
 function ProfileEdit({
   user,
@@ -42,16 +43,16 @@ function ProfileEdit({
   setErrMsgProfileEdit,
   setLoadingUser,
 }) {
-  console.log("Error messages:", errMsgs);
-  console.log("Loading", loading);
+  // console.log(user);
   const styles = useStyles();
   const history = useHistory();
   const { uid } = useParams();
   const [open, setOpen] = useState(false);
   const [openUrl, setOpenUrl] = useState(false);
   const fileRef = useRef(null);
-  const [filename, setFilename] = useState(null);
+  const [file, setFile] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const [photo, setPhoto] = useState(null);
   // input values:
   const [values, setValues] = useState({
     url: "",
@@ -60,6 +61,7 @@ function ProfileEdit({
     phoneNumber: user.phoneNumber,
     email: user.email,
     password: "",
+    file: null,
   });
   useEffect(() => {
     console.log("user =>", user);
@@ -111,9 +113,14 @@ function ProfileEdit({
     setOpen(false);
   }
   function handleFileChange(e) {
-    console.log("e.target => ", e.target);
-    console.log("ref =>", fileRef.current);
-    console.log("the files =>", fileRef.current.files[0]);
+    console.log("handle file change", e.target.files[0]);
+    // setFile(e.target.files[0])
+    setValues((values) => ({
+      ...values,
+      file: e.target.files[0],
+    }));
+    console.log("handle file change", e.target.files[0]);
+
     setOpen(false);
   }
   function handleClickUrl() {
@@ -125,7 +132,7 @@ function ProfileEdit({
   }
   function handleClickDoneUrl() {
     setOpenUrl(false);
-    setFilename(values.url);
+    setFile(values.url);
   }
   function handleSubmit(values, e) {
     setLoadingProfileEdit(true);
@@ -134,6 +141,7 @@ function ProfileEdit({
   }
   return (
     <section>
+      <img src={photo} alt="" />
       <Dialog
         className={styles.dialogUrl}
         open={openUrl}
@@ -189,12 +197,16 @@ function ProfileEdit({
                 Changes will be reflected to every services
               </Typography>
               <div className={styles.photo}>
-                <ButtonBase onClick={handleClickPhoto}>
+                <ButtonBase
+                  onClick={handleClickPhoto}
+                  className={styles.btnPhoto}
+                >
+                  <img src={user.photoURL} className={styles.photoBG} alt="" />
                   <CameraAltIcon />
                 </ButtonBase>
                 <div className="wrapper">
                   <div className="label">change photo</div>
-                  <div className="filename">{filename}</div>
+                  <div className="filename">{file}</div>
                 </div>
                 <SwipeableDrawer
                   className={styles.drawer}
@@ -212,6 +224,7 @@ function ProfileEdit({
                         type="file"
                         ref={fileRef}
                         onChange={handleFileChange}
+                        value={file}
                       />
                     </ListItem>
                     <ListItem button>

@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     flexWrap: "wrap",
+    marginBottom: 24,
     "& button": {
       width: 72,
       height: 72,
@@ -81,6 +82,15 @@ const useStyles = makeStyles((theme) => ({
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
     },
+  },
+  btnPhoto: {
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  photoBG: {
+    position: 'absolute',
+    zIndex: -1,
+    width: '100%',
   },
   save: {
     borderRadius: 8,
