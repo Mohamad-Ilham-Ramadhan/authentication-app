@@ -52,7 +52,8 @@ function ProfileEdit({
   const fileRef = useRef(null);
   const [file, setFile] = useState(null);
   const [notFound, setNotFound] = useState(false);
-  const [photo, setPhoto] = useState(null);
+  // const [photo, setPhoto] = useState(null);
+  const photoURLRef = useRef(null);
   // input values:
   const [values, setValues] = useState({
     url: "",
@@ -113,8 +114,16 @@ function ProfileEdit({
     setOpen(false);
   }
   function handleFileChange(e) {
-    console.log("handle file change", e.target.files[0]);
-    // setFile(e.target.files[0])
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = function() {
+      photoURLRef.current.src= reader.result;
+    }
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      /// do nothing
+    }
     setValues((values) => ({
       ...values,
       file: e.target.files[0],
@@ -141,7 +150,6 @@ function ProfileEdit({
   }
   return (
     <section>
-      <img src={photo} alt="" />
       <Dialog
         className={styles.dialogUrl}
         open={openUrl}
@@ -201,7 +209,7 @@ function ProfileEdit({
                   onClick={handleClickPhoto}
                   className={styles.btnPhoto}
                 >
-                  <img src={user.photoURL} className={styles.photoBG} alt="" />
+                  <img ref={photoURLRef} src={user.photoURL} className={styles.photoBG} alt="" />
                   <CameraAltIcon />
                 </ButtonBase>
                 <div className="wrapper">
