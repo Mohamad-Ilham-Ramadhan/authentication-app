@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
       width: "100%",
       opacity: 0,
+      cursor: 'pointer',
     },
   },
   dialogUrl: {
