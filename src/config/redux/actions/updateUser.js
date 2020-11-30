@@ -14,6 +14,7 @@ export default function updateUser({
   return function (dispatch, getState) {
     // file type is [null, File, string(url)]
     console.log('file =>', file);
+    console.log('type of file =>', typeof file);
     const user = firebase.auth().currentUser;
     const newData = { displayName, bio, phoneNumber };
     const profileRef = storage.ref().child(`/images/profile/${user.uid}`);
@@ -22,6 +23,35 @@ export default function updateUser({
       if (file == null) {
         try {
           const data = newData;
+          const updateProfileAuth = user.updateProfile(data);
+          console.log('update profile auth SUKSES');
+          const updateProfileDatabase = database.ref(`users/${user.uid}`).update(data);
+          console.log('update profile di realtime database SUKSES!');
+          dispatch({ type, payload: data });
+          dispatch(
+            setErrMsgProfileEdit({
+              displayName: "",
+              bio: "",
+              phoneNumber: "",
+              photoURL: '',
+            })
+          );
+        } catch (err) {
+          console.log("update profile gagal =>", err);
+          const msg = err.message;
+          dispatch(
+            setErrMsgProfileEdit({
+              displayName: msg,
+              bio: msg,
+              phoneNumber: msg,
+              photoURL: msg,
+            })
+          );
+          dispatch(setLoadingProfileEdit(false));
+        }
+      } else if (typeof file == 'string') {
+        try {
+          const data = { ...newData, photoURL: file };
           const updateProfileAuth = user.updateProfile(data);
           console.log('update profile auth SUKSES');
           const updateProfileDatabase = database.ref(`users/${user.uid}`).update(data);

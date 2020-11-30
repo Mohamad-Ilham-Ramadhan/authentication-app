@@ -49,7 +49,7 @@ function ProfileEdit({
   const [open, setOpen] = useState(false);
   const [openUrl, setOpenUrl] = useState(false);
   const fileRef = useRef(null);
-  const [file, setFile] = useState(null);
+  const [fileSource, setFileSource] = useState(null);
   const [notFound, setNotFound] = useState(false);
   // const [photo, setPhoto] = useState(null);
   const inputURLRef = useRef('asdf');
@@ -115,9 +115,11 @@ function ProfileEdit({
   }
   function handleFileChange(e) {
     const file = e.target.files[0];
+    console.log(file);
     const reader = new FileReader();
     reader.onloadend = function() {
-      setPhotoImgSrc( reader.result)
+      setPhotoImgSrc( reader.result);
+      setFileSource(reader.result);
     }
     if (file) {
       reader.readAsDataURL(file);
@@ -138,9 +140,14 @@ function ProfileEdit({
     setOpenUrl(false);
   }
   function handleClickDoneUrl() {
+    const url = inputURLRef.current.value;
     setOpenUrl(false);
-    setPhotoImgSrc(inputURLRef.current.value)
-    setFile(values.url);
+    setPhotoImgSrc(url);
+    setFileSource(url);
+    setValues((values) => ({
+      ...values,
+      file: url,
+    }));
   }
   function handleSubmit(values, e) {
     setLoadingProfileEdit(true);
@@ -213,7 +220,7 @@ function ProfileEdit({
                 </ButtonBase>
                 <div className="wrapper">
                   <div className="label">change photo</div>
-                  <div className="filename">{file}</div>
+                  <div className="filename">{fileSource}</div>
                 </div>
                 <SwipeableDrawer
                   className={styles.drawer}
@@ -231,7 +238,6 @@ function ProfileEdit({
                         type="file"
                         ref={fileRef}
                         onChange={handleFileChange}
-                        value={file}
                       />
                     </ListItem>
                     <ListItem button>
