@@ -139,7 +139,7 @@ function ProfileEdit({
   }
   function handleClickDoneUrl() {
     setOpenUrl(false);
-    console.log(inputURLRef.current.value);
+    setPhotoImgSrc(inputURLRef.current.value)
     setFile(values.url);
   }
   function handleSubmit(values, e) {
