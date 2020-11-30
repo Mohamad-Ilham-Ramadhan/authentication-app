@@ -31,7 +31,6 @@ import setLoadingProfileEdit from "../../config/redux/actions/setLoadingProfileE
 import setErrMsgProfileEdit from "../../config/redux/actions/setErrMsgProfileEdit";
 import setLoadingUser from "../../config/redux/actions/setLoadingUser";
 import { storage } from "../../config/firebase";
-
 function ProfileEdit({
   user,
   updateUser,
@@ -53,10 +52,10 @@ function ProfileEdit({
   const [file, setFile] = useState(null);
   const [notFound, setNotFound] = useState(false);
   // const [photo, setPhoto] = useState(null);
-  const photoURLRef = useRef(null);
+  const inputURLRef = useRef('asdf');
+  const [photoImgSrc, setPhotoImgSrc] = useState('');
   // input values:
   const [values, setValues] = useState({
-    url: "",
     displayName: user.displayName,
     bio: user.bio,
     phoneNumber: user.phoneNumber,
@@ -66,6 +65,7 @@ function ProfileEdit({
   });
   useEffect(() => {
     console.log("user =>", user);
+    setPhotoImgSrc(user.photoURL)
     setValues({
       ...values,
       displayName: user.displayName,
@@ -117,7 +117,7 @@ function ProfileEdit({
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onloadend = function() {
-      photoURLRef.current.src= reader.result;
+      setPhotoImgSrc( reader.result)
     }
     if (file) {
       reader.readAsDataURL(file);
@@ -128,8 +128,6 @@ function ProfileEdit({
       ...values,
       file: e.target.files[0],
     }));
-    console.log("handle file change", e.target.files[0]);
-
     setOpen(false);
   }
   function handleClickUrl() {
@@ -141,6 +139,7 @@ function ProfileEdit({
   }
   function handleClickDoneUrl() {
     setOpenUrl(false);
+    console.log(inputURLRef.current.value);
     setFile(values.url);
   }
   function handleSubmit(values, e) {
@@ -148,6 +147,7 @@ function ProfileEdit({
     updateUser(values);
     e.preventDefault();
   }
+  
   return (
     <section>
       <Dialog
@@ -160,8 +160,7 @@ function ProfileEdit({
           label="Photo URL"
           type="text"
           id="url"
-          value={values.url}
-          onChange={handleChange}
+          ref={inputURLRef}
           placeholder="Enter your photo URL..."
           className={clsx(styles.input, "url")}
         />
@@ -209,7 +208,7 @@ function ProfileEdit({
                   onClick={handleClickPhoto}
                   className={styles.btnPhoto}
                 >
-                  <img ref={photoURLRef} src={user.photoURL} className={styles.photoBG} alt="" />
+                  <img src={photoImgSrc} className={styles.photoBG} alt="" />
                   <CameraAltIcon />
                 </ButtonBase>
                 <div className="wrapper">

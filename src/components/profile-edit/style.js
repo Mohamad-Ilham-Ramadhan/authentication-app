@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "&.url": {
       maxWidth: "unset",
+      marginBottom: 24,
     },
   },
   photo: {

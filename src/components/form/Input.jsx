@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Input({
+const Input = React.forwardRef( ({
   type,
   placeholder,
   icon,
@@ -34,7 +34,7 @@ export default function Input({
   value,
   onChange,
   ...props
-}) {
+}, ref) => {
   const styles = useStyles();
   return (
     <FormControl
@@ -53,8 +53,12 @@ export default function Input({
         startAdornment={
           icon ? <InputAdornment position="start">{icon}</InputAdornment> : null
         }
+        inputRef={ref}
         {...props}
       />
     </FormControl>
   );
-}
+} ) 
+
+export default Input;
+

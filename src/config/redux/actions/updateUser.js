@@ -12,6 +12,7 @@ export default function updateUser({
   file,
 }) {
   return function (dispatch, getState) {
+    // file type is [null, File, string(url)]
     console.log('file =>', file);
     const user = firebase.auth().currentUser;
     const newData = { displayName, bio, phoneNumber };
