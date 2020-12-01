@@ -4,7 +4,7 @@ const initialState = {
   uid: null,
   email: null,
   displayName: null,
-  photoUrl: null,
+  photoURL: null,
   phoneNumber: null,
   password: null,
 };

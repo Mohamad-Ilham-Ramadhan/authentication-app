@@ -52,8 +52,8 @@ function ProfileEdit({
   const [fileSource, setFileSource] = useState(null);
   const [notFound, setNotFound] = useState(false);
   // const [photo, setPhoto] = useState(null);
-  const inputURLRef = useRef('asdf');
-  const [photoImgSrc, setPhotoImgSrc] = useState('');
+  const inputURLRef = useRef(null);
+  const [photoImgSrc, setPhotoImgSrc] = useState(null);
   // input values:
   const [values, setValues] = useState({
     displayName: user.displayName,
@@ -75,9 +75,11 @@ function ProfileEdit({
       setFileSource(null)
     }
   }, [errMsgs.submit])
-  useEffect(() => {
-    console.log("user =>", user);
-    setPhotoImgSrc(user.photoURL)
+  useEffect(( ) => {
+    // prevent photo src load from user when data is saving.
+    if (photoImgSrc == null) {
+      setPhotoImgSrc(user.photoURL)
+    }
     setValues({
       ...values,
       displayName: user.displayName,
