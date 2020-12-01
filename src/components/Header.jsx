@@ -161,7 +161,7 @@ function Header({ className, isLogin, logout, user, loadingUser }) {
       </Link>
       {isLogin ? (
         <div className={styles.menu} onClick={handleClick} role="button">
-          <div className="profile-img">
+          <div className="profile-img" style={{backgroundColor: user.photoURL ? 'transparent' : null}}>
             {user.photoURL ? (
               <img src={user.photoURL} alt="" />
             ) : (
