@@ -320,6 +320,7 @@ function ProfileEdit({
                   className={styles.save}
                   disableElevation
                   type="submit"
+                  disabled={loading}
                 >
                   {loading ? (
                     <CircularProgress className={styles.loading} size={24} />
