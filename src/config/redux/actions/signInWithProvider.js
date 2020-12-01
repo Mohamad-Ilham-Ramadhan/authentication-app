@@ -57,7 +57,7 @@ export default function signInWithProvider(provider, method) {
         };
         const isNewUser = response.additionalUserInfo.isNewUser;
         if (isNewUser) {
-          // simpan user di database
+          // simpan user di database, di redux dan login.
           database
             .ref(`users/${user.uid}`)
             .set(user)

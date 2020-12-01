@@ -11,7 +11,6 @@ import setUser from "../config/redux/actions/setUser";
 import setAuthLogin from "../config/redux/actions/setAuthLogin";
 import setAuthenticating from "../config/redux/actions/setAuthenticating";
 
-
 export default function App() {
   useEffect(() => {
     const dispatch = store.dispatch;

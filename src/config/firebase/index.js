@@ -1,4 +1,7 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/storage';
 var firebaseConfig = {
   apiKey: "AIzaSyAOE2o1mIuPEbTKLr5tsHvj_LGMI8KP0z4", // required
   authDomain: "authentication-app-686b4.firebaseapp.com",
@@ -14,6 +17,7 @@ const database = firebase.database();
 const storage = firebase.storage();
 export default firebase;
 export { database, storage };
+
 // test mode
 // {
 //   "rules": {
