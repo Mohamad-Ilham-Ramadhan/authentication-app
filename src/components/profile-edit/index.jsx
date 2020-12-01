@@ -115,11 +115,10 @@ function ProfileEdit({
   }
   function handleFileChange(e) {
     const file = e.target.files[0];
-    console.log(file);
     const reader = new FileReader();
     reader.onloadend = function() {
       setPhotoImgSrc( reader.result);
-      setFileSource(reader.result);
+      setFileSource(file.name);
     }
     if (file) {
       reader.readAsDataURL(file);
@@ -239,6 +238,7 @@ function ProfileEdit({
                         type="file"
                         ref={fileRef}
                         onChange={handleFileChange}
+                        accept="image/x-png,image/gif,image/jpeg"
                       />
                     </ListItem>
                     <ListItem button>
