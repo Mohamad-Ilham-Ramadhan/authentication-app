@@ -162,6 +162,7 @@ function ProfileEdit({
         open={openUrl}
         onClose={handleCloseUrl}
         fullWidth
+        maxWidth="lg"
       >
         <Input
           label="Photo URL"
