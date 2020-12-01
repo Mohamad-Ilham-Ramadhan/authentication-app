@@ -63,11 +63,18 @@ function ProfileEdit({
     password: "",
     file: null,
   });
+  // Hapus "saved" message ketika kita edit lagi
   useEffect( () => {
     if (errMsgs.submit.length > 0) {
       setErrMsgProfileEdit({submit: ''})
     }
   }, [values])
+  // remove filename/filesource ketika data berhasil di save.
+  useEffect( () => {
+    if (errMsgs.submit.length > 0) {
+      setFileSource(null)
+    }
+  }, [errMsgs.submit])
   useEffect(() => {
     console.log("user =>", user);
     setPhotoImgSrc(user.photoURL)
