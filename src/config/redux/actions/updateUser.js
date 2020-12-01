@@ -34,6 +34,7 @@ export default function updateUser({
               bio: "",
               phoneNumber: "",
               photoURL: '',
+              submit: 'saved'
             })
           );
         } catch (err) {
@@ -63,6 +64,7 @@ export default function updateUser({
               bio: "",
               phoneNumber: "",
               photoURL: '',
+              submit: 'saved'
             })
           );
         } catch (err) {
@@ -96,6 +98,7 @@ export default function updateUser({
               bio: "",
               phoneNumber: "",
               photoURL: '',
+              submit: 'saved'
             })
           );
         } catch (err) {
