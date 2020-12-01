@@ -30,7 +30,6 @@ import updateUser from "../../config/redux/actions/updateUser";
 import setLoadingProfileEdit from "../../config/redux/actions/setLoadingProfileEdit";
 import setErrMsgProfileEdit from "../../config/redux/actions/setErrMsgProfileEdit";
 import setLoadingUser from "../../config/redux/actions/setLoadingUser";
-import { storage } from "../../config/firebase";
 function ProfileEdit({
   user,
   updateUser,
@@ -76,17 +75,18 @@ function ProfileEdit({
     }
   }, [errMsgs.submit])
   useEffect(( ) => {
+    console.log('user =>', user);
     // prevent photo src load from user when data is saving.
     if (photoImgSrc == null) {
       setPhotoImgSrc(user.photoURL)
+      setValues({
+        ...values,
+        displayName: user.displayName,
+        bio: user.bio,
+        phoneNumber: user.phoneNumber,
+        email: user.email,
+      });
     }
-    setValues({
-      ...values,
-      displayName: user.displayName,
-      bio: user.bio,
-      phoneNumber: user.phoneNumber,
-      email: user.email,
-    });
   }, [user]);
   // clean the messages when component unmount
   useEffect(() => {

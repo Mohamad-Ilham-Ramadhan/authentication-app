@@ -14,11 +14,9 @@ import setAuthenticating from "../config/redux/actions/setAuthenticating";
 
 export default function App() {
   useEffect(() => {
-    console.log("APP DID MOUNT!");
     const dispatch = store.dispatch;
     // hanya digunakan untuk persistance login
     firebase.auth().onAuthStateChanged(function (user) {
-      console.log("ON AUTH STATE CHANGE CALLED!");
       if (user) {
         database
           .ref(`users/${user.uid}`)
@@ -32,7 +30,6 @@ export default function App() {
           });
       } else {
         // dont fetch
-        console.log("Don't fetch user!!");
         dispatch(setAuthenticating(false));
         dispatch(setLoadingRegister(false));
         dispatch(setLoadingLogin(false));

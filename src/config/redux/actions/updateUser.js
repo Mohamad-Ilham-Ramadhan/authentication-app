@@ -119,7 +119,7 @@ export default function updateUser({
       dispatch(setLoadingProfileEdit(false));
     }
     // dispatch(setLoadingProfileEdit(true));
-    async function updateEmail() {
+    async function updateEmailAndPassword() {
       try {
         const updateEmailAuth = await user.updateEmail(email);
         console.log('update email in auth SUKES');
@@ -146,7 +146,7 @@ export default function updateUser({
         try {
           const updatePasswordAuth = await user.updatePassword(password);
           console.log('update password auth SUKSES')
-          const updatePasswordDatabase = await database.ref(`user/${user.uid}`).update({ password: true })
+          const updatePasswordDatabase = await database.ref(`users/${user.uid}`).update({ password: true })
           console.log('update password di database SUKSES')
           dispatch({ type, payload: { password: true } })
           dispatch(setErrMsgProfileEdit({ password: '' }))
@@ -168,6 +168,6 @@ export default function updateUser({
         updateProfile();
       }
     }
-    updateEmail();
+    updateEmailAndPassword();
   };
 }

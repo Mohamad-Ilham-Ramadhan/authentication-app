@@ -19,15 +19,16 @@ export default function login(
           email: response.user.email,
           displayName: response.user.displayName,
           photoURL: response.user.photoURL,
-          phoneNumber: response.user.phoneNumber,
         };
         database
           .ref(`users/${user.uid}`)
           .once("value")
           .then((snapshot) => {
-            (user.bio = snapshot.val().bio || ""),
-              (user.password = snapshot.val().password || false),
-              dispatch(setLoadingLogin(false));
+            const value = snapshot.val();
+            user.bio = value.bio || "";
+            user.password = value.password || false;
+            user.phoneNumber = value.phoneNumber || '';
+            dispatch(setLoadingLogin(false));
             dispatch(setErrMsgLogin(""));
             dispatch(setUser(user));
             dispatch(setAuthLogin(true));
