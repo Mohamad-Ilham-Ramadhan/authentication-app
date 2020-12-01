@@ -63,6 +63,11 @@ function ProfileEdit({
     password: "",
     file: null,
   });
+  useEffect( () => {
+    if (errMsgs.submit.length > 0) {
+      setErrMsgProfileEdit({submit: ''})
+    }
+  }, [values])
   useEffect(() => {
     console.log("user =>", user);
     setPhotoImgSrc(user.photoURL)
